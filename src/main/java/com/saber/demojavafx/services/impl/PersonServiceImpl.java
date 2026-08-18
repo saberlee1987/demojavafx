@@ -29,4 +29,10 @@ public class PersonServiceImpl implements PersonService {
         PersonEntity personEntity = personRepository.findById(id);
         return PersonMapper.modelToDto(personEntity);
     }
+
+    @Override
+    public void savePerson(PersonDto personDto) {
+        PersonEntity personEntity = PersonMapper.dtoToModel(personDto);
+        personRepository.save(personEntity);
+    }
 }

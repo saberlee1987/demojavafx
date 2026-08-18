@@ -8,4 +8,6 @@ public interface PersonRepository {
     List<PersonEntity> findAll();
     PersonEntity findById(Integer id);
     PersonEntity findByNationalCode(String nationalCode);
+
+    void save(PersonEntity person);
 }

@@ -4,6 +4,7 @@ import com.saber.demojavafx.model.PersonEntity;
 import com.saber.demojavafx.repositories.PersonRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 
 import java.util.List;
 
@@ -33,5 +34,13 @@ public class PersonRepositoryImp implements PersonRepository {
         return entityManager.createNamedQuery("Person.findByNationalCode",PersonEntity.class)
                 .setParameter("nationalCode",nationalCode)
                 .getSingleResult();
+    }
+
+    @Override
+    public void save(PersonEntity person) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        entityManager.persist(person);
+        transaction.commit();
     }
 }

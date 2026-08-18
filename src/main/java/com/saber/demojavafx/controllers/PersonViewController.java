@@ -27,6 +27,8 @@ public class PersonViewController {
     private TextField createdAtField;
     @FXML
     private TextField updatedAtField;
+    @FXML
+    private Button buttonClose;
     private final PersonService personService;
 
     public PersonViewController(PersonService personService) {
@@ -44,6 +46,7 @@ public class PersonViewController {
         mobileField.setText(person.getMobile());
         createdAtField.setText(person.getCreatedAt());
         updatedAtField.setText(person.getUpdatedAt());
+        buttonClose.setOnAction(this::close);
     }
     @FXML
     private void close(ActionEvent event) {

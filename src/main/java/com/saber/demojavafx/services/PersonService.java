@@ -8,4 +8,6 @@ public interface PersonService {
 
     List<PersonDto> getAllPersons();
     PersonDto getPersonById(Integer id);
+
+    void savePerson(PersonDto personDto);
 }

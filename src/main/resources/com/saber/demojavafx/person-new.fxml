@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefHeight="600" prefWidth="600.0"
+            nodeOrientation="RIGHT_TO_LEFT">
+<top>
+    <VBox alignment="CENTER_LEFT"
+          spacing="5"
+          styleClass="page-header">
+
+        <padding>
+            <Insets top="25"
+                    right="30"
+                    bottom="20"
+                    left="30"/>
+        </padding>
+
+        <Label text="جدید شخص"
+               styleClass="page-title"/>
+        <Label text="اطلاعات جدید را وارد کنید"
+               styleClass="page-subtitle"/>
+    </VBox>
+</top>
+    <center>
+        <VBox alignment="TOP_CENTER"
+              spacing="30">
+        <padding>
+            <Insets top="20"
+                    right="50"
+                    bottom="20"
+                    left="50"/>
+        </padding>
+            <GridPane hgap="25"
+                      vgap="25">
+                <columnConstraints>
+                    <ColumnConstraints
+                            minWidth="150"
+                            prefWidth="150"/>
+                    <ColumnConstraints
+                            minWidth="250"
+                            prefWidth="250"/>
+                    <ColumnConstraints
+                            minWidth="150"
+                            prefWidth="150"/>
+                    <ColumnConstraints
+                            minWidth="250"
+                            prefWidth="250"/>
+                </columnConstraints>
+
+
+                <Label text="نام:"
+                       styleClass="field-label"
+                       GridPane.rowIndex="0"
+                       prefWidth="150"
+                       GridPane.columnIndex="0"/>
+
+                <TextField fx:id="firstnameField"
+                           GridPane.rowIndex="0"
+                           GridPane.columnIndex="1"/>
+
+                <Label text="نام خانوادگی:"
+                       styleClass="field-label"
+                       GridPane.rowIndex="1"
+                       prefWidth="150"
+                       GridPane.columnIndex="0"/>
+
+                <TextField fx:id="lastnameField"
+                           GridPane.rowIndex="1"
+                           GridPane.columnIndex="1"/>
+
+
+                <Label text="کد ملی:"
+                       styleClass="field-label"
+                       GridPane.rowIndex="2"
+                       prefWidth="150"
+                       GridPane.columnIndex="0"/>
+
+                <TextField fx:id="nationalCodeField"
+                           GridPane.rowIndex="2"
+                           GridPane.columnIndex="1"/>
+
+                <Label text="سن:"
+                       styleClass="field-label"
+                       GridPane.rowIndex="3"
+                       prefWidth="150"
+                       GridPane.columnIndex="0"/>
+
+                <TextField fx:id="ageField"
+                           GridPane.rowIndex="3"
+                           GridPane.columnIndex="1"/>
+
+                <Label text="موبایل:"
+                       styleClass="field-label"
+                       GridPane.rowIndex="4"
+                       prefWidth="150"
+                       GridPane.columnIndex="0"/>
+
+                <TextField fx:id="mobileField"
+                           GridPane.rowIndex="4"
+                           GridPane.columnIndex="1"/>
+
+                <!-- Row 3 -->
+
+                <Label text="پست الکترونیک:"
+                       styleClass="field-label"
+                       prefWidth="150"
+                       GridPane.rowIndex="5"
+                       GridPane.columnIndex="0"/>
+
+                <TextField fx:id="emailField"
+                           GridPane.rowIndex="5"
+                           GridPane.columnIndex="1"
+                           />
+            </GridPane>
+        </VBox>
+    </center>
+    <bottom>
+
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <padding>
+                <Insets top="10"
+                        right="50"
+                        bottom="20"
+                        left="50"/>
+            </padding>
+
+            <Button text="ثبت"
+                    fx:id="buttonSave"
+                    prefWidth="100"
+                    styleClass="save-button"/>
+
+            <Button text="انصراف"
+                    fx:id="buttonCancel"
+                    prefWidth="100"
+                    styleClass="cancel-button"/>
+
+        </HBox>
+
+    </bottom>
+</BorderPane>

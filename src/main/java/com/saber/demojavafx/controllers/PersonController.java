@@ -4,6 +4,7 @@ import com.saber.demojavafx.dto.PersonDto;
 import com.saber.demojavafx.services.PersonService;
 import com.saber.demojavafx.services.impl.PersonServiceImpl;
 import jakarta.persistence.EntityManagerFactory;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -38,6 +39,8 @@ public class PersonController {
     private TableColumn<PersonDto,String> emailColumn;
     @FXML
     private TableColumn<PersonDto,Void> actionColumn;
+    @FXML
+    private Button buttonNewPerson;
 
     private final PersonService personService;
 
@@ -60,7 +63,38 @@ public class PersonController {
         personTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         createActionButtons();
 
+        buttonNewPerson.setOnAction(this::showNewPersonPage);
         loadPersonData();
+    }
+
+    private void showNewPersonPage(ActionEvent event) {
+        openNewPage();
+    }
+
+    private void openNewPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/saber/demojavafx/person-new.fxml")
+            );
+            PersonNewController personNewController = new PersonNewController(personService);
+            personNewController.setOnPersonSaved(this::loadPersonData);
+
+            loader.setController(personNewController);
+            Parent load = loader.load();
+            Stage stage = new Stage();
+            String css = Objects.requireNonNull(getClass()
+                            .getResource("/css/application.css"))
+                    .toExternalForm();
+            stage.setTitle("اطلاعات شخص جدید");
+            Scene scene = new Scene(load,600,600);
+            scene.getStylesheets().add(css);
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        }catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+        }
     }
 
     private void loadPersonData() {
@@ -112,10 +146,10 @@ public class PersonController {
                            .getResource("/css/application.css"))
                    .toExternalForm();
            stage.setTitle("جزئیات مشتری");
-           Scene scene = new Scene(load,1500,700);
+           Scene scene = new Scene(load,1000,600);
            scene.getStylesheets().add(css);
            stage.setScene(scene);
-           stage.setResizable(false);
+           //stage.setResizable(false);
            stage.show();
        }catch (Exception e) {
            e.printStackTrace();
