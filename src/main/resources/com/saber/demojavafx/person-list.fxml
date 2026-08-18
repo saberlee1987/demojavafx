@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.HBox?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.saber.demojavafx.controllers.PersonController" nodeOrientation="RIGHT_TO_LEFT">
+    <center>
+        <StackPane>
+            <VBox spacing="15"
+                  maxWidth="1500"
+                  maxHeight="700"
+            styleClass="content-box">
+                <!-- عنوان -->
+                <Label text="لیست اشخاص"
+                       styleClass="page-title"/>
+                <!-- بخش جستجو -->
+                <HBox spacing="10"
+                      alignment="CENTER_RIGHT">
+                      <TextField
+                               promptText="جستجوی شخص..."
+                               prefWidth="300"/>
+                    
+                    <Button text="جستجو"
+                           />
+                    
+                    <Button text="شخص جدید"
+                            />
+                
+                </HBox>
+                
+                
+                <TableView fx:id="personTable" prefWidth="1500" prefHeight="600" VBox.vgrow="ALWAYS" >
+                    <columns>
+                        <TableColumn fx:id="idColumn" text="شناسه" prefWidth="150"/>
+                        <TableColumn fx:id="firstnameColumn" text="نام" prefWidth="150"/>
+                        <TableColumn fx:id="lastnameColumn" text="نام خانوادگی" prefWidth="150"/>
+                        <TableColumn fx:id="ageColumn" text="سن" prefWidth="150"/>
+                        <TableColumn fx:id="mobileColumn" text="موبایل" prefWidth="150"/>
+                        <TableColumn fx:id="nationalCodeColumn" text="کد ملی" prefWidth="150"/>
+                        <TableColumn fx:id="emailColumn" text="پست الکترونیک" prefWidth="200"/>
+                        <TableColumn fx:id="actionColumn" text="عملیات"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>
