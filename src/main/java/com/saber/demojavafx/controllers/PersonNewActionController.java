@@ -7,9 +7,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-public class PersonNewController extends BasePersonController {
+public class PersonNewActionController extends BasePersonActionController {
     private final PersonService personService;
-    public PersonNewController(PersonService personService) {
+    public PersonNewActionController(PersonService personService) {
         super(personService);
         this.personService = personService;
 

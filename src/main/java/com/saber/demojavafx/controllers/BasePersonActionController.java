@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.util.Map;
 
-public class BasePersonController {
+public class BasePersonActionController {
     @FXML
     protected TextField firstnameField;
     @FXML
@@ -54,7 +54,7 @@ public class BasePersonController {
 
     private final PersonService personService;
 
-    public BasePersonController(PersonService personService) {
+    public BasePersonActionController(PersonService personService) {
         this.personService = personService;
     }
 

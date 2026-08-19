@@ -6,10 +6,10 @@ import com.saber.demojavafx.utils.Utilities;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 
-public class PersonEditController extends BasePersonController {
+public class PersonEditActionController extends BasePersonActionController {
     private final PersonService personService;
 
-    public PersonEditController(PersonService personService) {
+    public PersonEditActionController(PersonService personService) {
         super(personService);
         this.personService = personService;
     }

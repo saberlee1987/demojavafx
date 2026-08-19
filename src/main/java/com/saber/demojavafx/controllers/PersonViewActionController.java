@@ -2,8 +2,8 @@ package com.saber.demojavafx.controllers;
 
 import com.saber.demojavafx.services.PersonService;
 
-public class PersonViewController extends BasePersonController{
-    public PersonViewController(PersonService personService) {
+public class PersonViewActionController extends BasePersonActionController {
+    public PersonViewActionController(PersonService personService) {
         super(personService);
     }
 

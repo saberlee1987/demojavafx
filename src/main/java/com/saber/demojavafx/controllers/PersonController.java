@@ -97,7 +97,7 @@ public class PersonController {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/com/saber/demojavafx/person-new.fxml")
             );
-            PersonNewController personNewController = new PersonNewController(personService);
+            PersonNewActionController personNewController = new PersonNewActionController(personService);
             loader.setController(personNewController);
             Parent load = loader.load();
             personNewController.initialize();
@@ -195,12 +195,12 @@ public class PersonController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(page));
             Parent load=null;
             if (isView) {
-                PersonViewController personViewController = new PersonViewController(personService);
+                PersonViewActionController personViewController = new PersonViewActionController(personService);
                 loader.setController(personViewController);
                 load = loader.load();
                 personViewController.loadData(personId);
             } else {
-                PersonEditController personEditController = new PersonEditController(personService);
+                PersonEditActionController personEditController = new PersonEditActionController(personService);
                 loader.setController(personEditController);
                 load = loader.load();
                 personEditController.loadData(personId);
