@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Table(name = "persons")
 @Data
 @NamedQuery(name = "Person.findAll",query = "select p from PersonEntity p")
+@NamedQuery(name = "Person.findBySearch",query = "select p from PersonEntity p where p.firstname like concat('%',:search,'%') or p.lastname like concat('%',:search,'%')")
 @NamedQuery(name = "Person.findById",query = "select p from PersonEntity p where p.id=:id")
 @NamedQuery(name = "Person.findByNationalCode",query = "select p from PersonEntity p where p.nationalCode=:nationalCode")
 public class PersonEntity {

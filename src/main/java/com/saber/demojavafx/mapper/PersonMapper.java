@@ -36,12 +36,17 @@ public class PersonMapper {
     }
     public static PersonEntity  dtoToModel(PersonDto personDto) {
         PersonEntity personEntity = new PersonEntity();
+       setPersonDtoToEntity(personDto,personEntity);
+        return personEntity;
+    }
+
+    public static void   setPersonDtoToEntity(PersonDto personDto,PersonEntity personEntity) {
         personEntity.setFirstname(personDto.getFirstname());
         personEntity.setLastname(personDto.getLastname());
         personEntity.setAge(personDto.getAge());
         personEntity.setMobile(personDto.getMobile());
         personEntity.setNationalCode(personDto.getNationalCode());
         personEntity.setEmail(personDto.getEmail());
-        return personEntity;
+        personEntity.setId(personDto.getId());
     }
 }

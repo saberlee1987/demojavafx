@@ -19,9 +19,9 @@
                     left="30"/>
         </padding>
 
-        <Label text="جدید شخص"
+        <Label text="اطلاعات شخص"
                styleClass="page-title"/>
-        <Label text="اطلاعات جدید را وارد کنید"
+        <Label text="لطفا اطلاعات را به بروز رسانی کنید"
                styleClass="page-subtitle"/>
     </VBox>
 </top>
@@ -158,6 +158,28 @@
                        styleClass="validation-error"
                        prefWidth="200"
                 />
+                <Label text="تاریخ ایجاد:"
+                       styleClass="field-label"
+                       prefWidth="150"
+                       GridPane.rowIndex="6"
+                       GridPane.columnIndex="0"/>
+                
+                <TextField fx:id="createdAtField"
+                           GridPane.rowIndex="6"
+                           editable="false"
+                           GridPane.columnIndex="1"
+                />
+                <Label text="تاریخ به روز رسانی:"
+                       styleClass="field-label"
+                       prefWidth="150"
+                       GridPane.rowIndex="7"
+                       GridPane.columnIndex="0"/>
+                
+                <TextField fx:id="updatedAtField"
+                           GridPane.rowIndex="7"
+                           editable="false"
+                           GridPane.columnIndex="1"
+                />
             </GridPane>
         </VBox>
     </center>
@@ -171,10 +193,10 @@
                         left="50"/>
             </padding>
 
-            <Button text="ثبت"
-                    fx:id="buttonSave"
+            <Button text="ویرایش"
+                    fx:id="buttonEdit"
                     prefWidth="100"
-                    styleClass="save-button"/>
+                    styleClass="edit-button"/>
 
             <Button text="انصراف"
                     fx:id="buttonCancel"

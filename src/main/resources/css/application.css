@@ -90,3 +90,97 @@
     -fx-background-radius: 6px;
     -fx-cursor: hand;
 }
+
+.validation-error {
+    -fx-text-fill: red;
+    -fx-font-size: 12px;
+}
+.save-button {
+    -fx-background-color: #2e7d32;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 20px;
+    -fx-background-radius: 6px;
+    -fx-cursor: hand;
+}
+
+.save-button:hover {
+    -fx-background-color: #388e3c;
+}
+
+.save-button:pressed {
+    -fx-background-color: #1b5e20;
+}
+
+
+.cancel-button {
+    -fx-background-color: #c62828;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 20px;
+    -fx-background-radius: 6px;
+    -fx-cursor: hand;
+}
+
+.cancel-button:hover {
+    -fx-background-color: #d32f2f;
+}
+
+.cancel-button:pressed {
+    -fx-background-color: #8e0000;
+}
+
+.edit-button {
+    -fx-background-color: #1976D2;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 7px 16px;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-cursor: hand;
+}
+
+.edit-button:hover {
+    -fx-background-color: #1565C0;
+}
+
+.edit-button:pressed {
+    -fx-background-color: #0D47A1;
+}
+
+.edit-button:focused {
+    -fx-effect: dropshadow(gaussian, rgba(25, 118, 210, 0.35), 6, 0.3, 0, 1);
+}
+
+.delete-button {
+    -fx-background-color: #d32f2f;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 7px 16px;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-cursor: hand;
+}
+
+.delete-button:hover {
+    -fx-background-color: #c62828;
+}
+
+.delete-button:pressed {
+    -fx-background-color: #b71c1c;
+}
+
+.delete-button:focused {
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(211, 47, 47, 0.35),
+            6,
+            0.3,
+            0,
+            1
+    );
+}

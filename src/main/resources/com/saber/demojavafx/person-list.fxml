@@ -20,18 +20,18 @@
                        styleClass="page-title"/>
                 <!-- بخش جستجو -->
                 <HBox spacing="10"
-                      alignment="CENTER_RIGHT">
+                      alignment="CENTER_LEFT">
                     <TextField promptText="جستجوی شخص..."
+                               fx:id="searchField"
                                prefWidth="300"/>
-                    <Button text="جستجو"/>
+                    <Button text="جستجو" fx:id="buttonSearch" />
                     <Button text="شخص جدید"
                             fx:id="buttonNewPerson"/>
                 </HBox>
                 <!-- جدول -->
                 <TableView fx:id="personTable"
                            prefWidth="1200"
-                           maxWidth="1200"
-                           prefHeight="500"
+                           prefHeight="600"
                            VBox.vgrow="ALWAYS">
 
                     <!-- جلوگیری از Scroll افقی -->
@@ -62,9 +62,12 @@
                                      prefWidth="200"/>
                         <TableColumn fx:id="actionColumn"
                                      text="عملیات"
-                                     prefWidth="150"/>
+                                     prefWidth="250"/>
                     </columns>
                 </TableView>
+                <Pagination fx:id="pagination"
+                            pageCount="1"
+                />
             </VBox>
         </StackPane>
     </center>

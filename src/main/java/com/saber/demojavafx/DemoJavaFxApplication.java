@@ -28,14 +28,13 @@ public class DemoJavaFxApplication extends Application {
                 throw new RuntimeException(e);
             }
         });
-        Scene scene = new Scene(fxmlLoader.load(), 1300, 500);
+        Scene scene = new Scene(fxmlLoader.load(), 1300, 600);
         String css = Objects.requireNonNull(getClass()
                         .getResource("/css/application.css"))
                 .toExternalForm();
         scene.getStylesheets().add(css);
         stage.setTitle("MyApplication");
         stage.setScene(scene);
-        //stage.setResizable(false);
         stage.show();
     }
 }

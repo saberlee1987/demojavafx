@@ -12,7 +12,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            prefWidth="900"
+            prefWidth="1000"
             prefHeight="600"
             nodeOrientation="RIGHT_TO_LEFT"
             styleClass="person-view">
@@ -41,10 +41,8 @@
     
     </top>
     
-    
     <!-- Content -->
     <center>
-        
         <VBox alignment="TOP_CENTER"
               spacing="20">
             
@@ -55,143 +53,108 @@
                         left="50"/>
             </padding>
             
-            
             <!-- Personal Information Card -->
             <VBox maxWidth="800"
                   spacing="15"
                   styleClass="info-card">
-              <Label text="اطلاعات شخص"
+                <Label text="اطلاعات شخص"
                        styleClass="section-title"/>
                 <GridPane hgap="15"
                           vgap="15">
                     
                     <columnConstraints>
-                        
                         <ColumnConstraints
                                 minWidth="150"
                                 prefWidth="150"/>
-                        
                         <ColumnConstraints
                                 minWidth="250"
                                 prefWidth="250"/>
-                        
                         <ColumnConstraints
                                 minWidth="150"
                                 prefWidth="150"/>
-                        
                         <ColumnConstraints
                                 minWidth="250"
                                 prefWidth="250"/>
-                    
                     </columnConstraints>
-                    
-                    
-                    <!-- Row 0 -->
-                    
-                    <Label text="شناسه:"
-                           styleClass="field-label"
-                           GridPane.rowIndex="0"
-                           prefWidth="150"
-                           GridPane.columnIndex="0"/>
-                    
-                    <TextField fx:id="idField"
-                               editable="false"
-                               GridPane.rowIndex="0"
-                               GridPane.columnIndex="1"/>
-                    
-                    
-                    <Label text="کد ملی:"
-                           styleClass="field-label"
-                           GridPane.rowIndex="0"
-                           prefWidth="150"
-                           GridPane.columnIndex="2"/>
-                    
-                    <TextField fx:id="nationalCodeField"
-                               editable="false"
-                               GridPane.rowIndex="0"
-                               GridPane.columnIndex="3"/>
-                    
-                    
-                    <!-- Row 1 -->
-                    
+                  
                     <Label text="نام:"
                            styleClass="field-label"
-                           GridPane.rowIndex="1"
+                           GridPane.rowIndex="0"
                            prefWidth="150"
                            GridPane.columnIndex="0"/>
                     
                     <TextField fx:id="firstnameField"
                                editable="false"
-                               GridPane.rowIndex="1"
+                               GridPane.rowIndex="0"
                                GridPane.columnIndex="1"/>
-                    
                     
                     <Label text="نام خانوادگی:"
                            styleClass="field-label"
-                           GridPane.rowIndex="1"
+                           GridPane.rowIndex="0"
                            prefWidth="150"
                            GridPane.columnIndex="2"/>
                     
                     <TextField fx:id="lastnameField"
                                editable="false"
-                               GridPane.rowIndex="1"
+                               GridPane.rowIndex="0"
                                GridPane.columnIndex="3"/>
                     
-                    
-                    <!-- Row 2 -->
-                    
-                    <Label text="سن:"
+                    <Label text="کد ملی:"
                            styleClass="field-label"
-                           GridPane.rowIndex="2"
+                           GridPane.rowIndex="1"
                            prefWidth="150"
                            GridPane.columnIndex="0"/>
                     
-                    <TextField fx:id="ageField"
+                    <TextField fx:id="nationalCodeField"
                                editable="false"
-                               GridPane.rowIndex="2"
+                               GridPane.rowIndex="1"
                                GridPane.columnIndex="1"/>
                     
+                    <Label text="سن:"
+                           styleClass="field-label"
+                           GridPane.rowIndex="1"
+                           prefWidth="150"
+                           GridPane.columnIndex="2"/>
+                    
+                    <TextField fx:id="ageField"
+                               editable="false"
+                               GridPane.rowIndex="1"
+                               GridPane.columnIndex="3"/>
                     
                     <Label text="موبایل:"
                            styleClass="field-label"
                            GridPane.rowIndex="2"
                            prefWidth="150"
-                           GridPane.columnIndex="2"/>
+                           GridPane.columnIndex="0"/>
                     
                     <TextField fx:id="mobileField"
                                editable="false"
                                GridPane.rowIndex="2"
-                               GridPane.columnIndex="3"/>
-                    
-                    
-                    <!-- Row 3 -->
+                               GridPane.columnIndex="1"/>
                     
                     <Label text="پست الکترونیک:"
                            styleClass="field-label"
                            prefWidth="150"
-                           GridPane.rowIndex="3"
-                           GridPane.columnIndex="0"/>
+                           GridPane.rowIndex="2"
+                           GridPane.columnIndex="2"/>
                     
                     <TextField fx:id="emailField"
                                editable="false"
-                               GridPane.rowIndex="3"
-                               GridPane.columnIndex="1"
-                               GridPane.columnSpan="3"/>
+                               GridPane.rowIndex="2"
+                               GridPane.columnIndex="3"
+                    />
                 
                 </GridPane>
             
             </VBox>
-            
-            
+           
             <!-- Audit Information -->
-            
             <VBox maxWidth="800"
                   spacing="15"
                   styleClass="info-card">
                 
                 <Label text="اطلاعات سیستمی"
                        styleClass="section-title"/>
-                
                 
                 <GridPane hgap="15"
                           vgap="15">
@@ -239,34 +202,24 @@
                                GridPane.columnIndex="3"/>
                 
                 </GridPane>
-            
             </VBox>
         
         </VBox>
     
     </center>
-    
-    
     <!-- Bottom -->
-    
     <bottom>
-        
         <HBox alignment="CENTER_LEFT">
-            
             <padding>
                 <Insets top="10"
                         right="50"
                         bottom="20"
                         left="50"/>
             </padding>
-            
             <Button text="بستن"
                     fx:id="buttonClose"
                     prefWidth="100"
                     styleClass="close-button"/>
-        
         </HBox>
-    
     </bottom>
-
 </BorderPane>
