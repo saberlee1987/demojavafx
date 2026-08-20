@@ -211,7 +211,16 @@ public class PersonController {
                             .getResource("/css/application.css"))
                     .toExternalForm();
             stage.setTitle("جزئیات مشتری");
-            Scene scene = new Scene(load, 1100, 600);
+            double sceneWidth = Utilities.getScreenWidthByPercent();
+            double sceneHeight = Utilities.getScreenHeightByPercent();
+            if (!isView) {
+                sceneWidth = sceneWidth * .55;
+                sceneHeight = sceneHeight * .90;
+            }
+
+            System.out.println("sceneWidth ===> "+sceneWidth);
+            System.out.println("sceneHeight ===> "+sceneHeight);
+            Scene scene = new Scene(load, sceneWidth, sceneHeight);
             scene.getStylesheets().add(css);
             stage.setScene(scene);
             //stage.setResizable(false);
