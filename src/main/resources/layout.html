@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    ```
+    <title>راهنمای Layout Pane های JavaFX</title>
+
+    <style>
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            line-height: 1.9;
+            margin: 0;
+            background: #f5f7fa;
+            color: #263238;
+        }
+
+        header {
+            background: #263238;
+            color: white;
+            padding: 35px 20px;
+            text-align: center;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            background: white;
+            margin-bottom: 25px;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.08);
+        }
+
+        h1, h2, h3 {
+            color: #1f2933;
+        }
+
+        h2 {
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            margin-top: 25px;
+        }
+
+        code {
+            direction: ltr;
+            text-align: left;
+            background: #f0f2f4;
+            padding: 3px 7px;
+            border-radius: 4px;
+            font-family: Consolas, monospace;
+        }
+
+        pre {
+            direction: ltr;
+            text-align: left;
+            background: #263238;
+            color: #f5f5f5;
+            padding: 18px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+            line-height: 1.6;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: right;
+        }
+
+        th {
+            background: #eceff1;
+        }
+
+        .diagram {
+            direction: ltr;
+            text-align: center;
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            white-space: pre-line;
+            font-family: Consolas, monospace;
+        }
+
+        .note {
+            background: #fff8e1;
+            border-right: 5px solid #ffb300;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .important {
+            background: #e8f5e9;
+            border-right: 5px solid #43a047;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #607d8b;
+        }
+    </style>
+    ```
+
+</head>
+
+<body>
+
+<header>
+    <h1>راهنمای Layout Pane های JavaFX</h1>
+    <p>آشنایی با BorderPane، VBox، HBox، StackPane، AnchorPane، GridPane و سایر Layoutها</p>
+</header>
+
+<main>
+
+    ```
+    <!-- مقدمه -->
+    <section>
+        <h2>1. Pane چیست؟</h2>
+
+        <p>
+            در JavaFX، اجزایی مانند
+            <code>BorderPane</code>،
+            <code>VBox</code>،
+            <code>HBox</code>،
+            <code>StackPane</code>
+            و
+            <code>AnchorPane</code>
+            برای چیدمان عناصر صفحه استفاده می‌شوند.
+        </p>
+
+        <p>
+            به این اجزا معمولاً
+            <strong>Layout Pane</strong>
+            یا
+            <strong>Layout Container</strong>
+            گفته می‌شود.
+        </p>
+
+        <p>
+            وظیفه Pane این است که مشخص کند کنترل‌هایی مانند
+            <code>Button</code>،
+            <code>Label</code>،
+            <code>TextField</code>
+            و
+            <code>TableView</code>
+            چگونه و در کجا قرار بگیرند.
+        </p>
+
+        <div class="diagram">
+            Node
+            │
+            ├── Control
+            │     ├── Button
+            │     ├── Label
+            │     ├── TextField
+            │     ├── TableView
+            │     └── ComboBox
+            │
+            └── Parent
+            │
+            └── Pane
+            ├── BorderPane
+            ├── VBox
+            ├── HBox
+            ├── StackPane
+            ├── AnchorPane
+            ├── GridPane
+            ├── FlowPane
+            ├── TilePane
+            └── Pane
+        </div>
+    </section>
+
+    <!-- VBox -->
+    <section>
+        <h2>2. VBox</h2>
+
+        <p>
+            نام <code>VBox</code> مخفف
+            <strong>Vertical Box</strong>
+            است.
+        </p>
+
+        <p>
+            عناصر داخل VBox به صورت عمودی، یعنی زیر یکدیگر، قرار می‌گیرند.
+        </p>
+
+        <pre>&lt;VBox spacing="10"&gt;
+
+&lt;Label text="نام"/&gt;
+
+&lt;TextField/&gt;
+
+&lt;Label text="نام خانوادگی"/&gt;
+
+&lt;TextField/&gt;
+
+&lt;Button text="ذخیره"/&gt;
+```
+
+            </VBox></pre>
+
+        ```
+        <div class="diagram">
+            ```
+
+            ┌──────────────────────┐
+            │ نام                   │
+            │ [**************]     │
+            │                      │
+            │ نام خانوادگی          │
+            │ [**************]     │
+            │                      │
+            │ [ ذخیره ]             │
+            └──────────────────────┘ </div>
+
+        ```
+        <h3>کاربردهای مناسب</h3>
+
+        <ul>
+            <li>فرم‌های عمودی</li>
+            <li>منوها</li>
+            <li>قرار دادن چند کنترل زیر یکدیگر</li>
+            <li>صفحه‌های ساده مدیریتی</li>
+        </ul>
+
+        <h3>مثال در صفحه Person</h3>
+
+        <pre>&lt;VBox spacing="15"&gt;
+
+&lt;Label text="لیست اشخاص"/&gt;
+
+&lt;HBox&gt;
+    ...
+&lt;/HBox&gt;
+
+&lt;TableView/&gt;
+
+&lt;Pagination/&gt;
+```
+
+            </VBox></pre> </section>
+
+    ```
+    <!-- HBox -->
+    <section>
+        <h2>3. HBox</h2>
+
+        <p>
+            <code>HBox</code> مخفف
+            <strong>Horizontal Box</strong>
+            است و عناصر را به صورت افقی در کنار یکدیگر قرار می‌دهد.
+        </p>
+
+        <pre>&lt;HBox spacing="10"&gt;
+
+&lt;Button text="ذخیره"/&gt;
+
+&lt;Button text="ویرایش"/&gt;
+
+&lt;Button text="حذف"/&gt;
+```
+
+            </HBox></pre>
+
+        ```
+        <div class="diagram">
+            ```
+
+            ┌──────────────────────────────────┐
+            │ [ذخیره]   [ویرایش]   [حذف]       │
+            └──────────────────────────────────┘ </div>
+
+        ```
+        <h3>کاربردها</h3>
+
+        <ul>
+            <li>قرار دادن چند دکمه کنار هم</li>
+            <li>Toolbar</li>
+            <li>قسمت جستجوی صفحه</li>
+            <li>چیدن Label و TextField کنار هم</li>
+        </ul>
+    </section>
+
+    <!-- BorderPane -->
+    <section>
+        <h2>4. BorderPane</h2>
+
+        <p>
+            <code>BorderPane</code> یکی از مهم‌ترین Layoutهای JavaFX است.
+            این Pane صفحه را به پنج ناحیه تقسیم می‌کند:
+        </p>
+
+        <ul>
+            <li>Top</li>
+            <li>Bottom</li>
+            <li>Left</li>
+            <li>Right</li>
+            <li>Center</li>
+        </ul>
+
+        <div class="diagram">
+            TOP
+            ┌─────────────────────────────┐
+            │                             │
+            ├────────┬───────────┬────────┤
+            │        │           │        │
+            │  LEFT  │   CENTER  │ RIGHT  │
+            │        │           │        │
+            ├────────┴───────────┴────────┤
+            │           BOTTOM            │
+            └─────────────────────────────┘
+        </div>
+
+        <pre>&lt;BorderPane&gt;
+
+&lt;top&gt;
+    &lt;Label text="Header"/&gt;
+&lt;/top&gt;
+
+&lt;left&gt;
+    &lt;VBox&gt;
+        &lt;Button text="Home"/&gt;
+        &lt;Button text="Persons"/&gt;
+    &lt;/VBox&gt;
+&lt;/left&gt;
+
+&lt;center&gt;
+    &lt;TableView/&gt;
+&lt;/center&gt;
+
+&lt;bottom&gt;
+    &lt;Pagination/&gt;
+&lt;/bottom&gt;
+```
+
+            </BorderPane></pre>
+
+        ```
+        <h3>کاربرد اصلی</h3>
+
+        <p>
+            برای ساختار اصلی برنامه بسیار مناسب است.
+            مثلاً:
+        </p>
+
+        <div class="diagram">
+            ```
+
+            ┌─────────────────────────────────────┐
+            │               Header                │
+            ├──────────┬──────────────────────────┤
+            │          │                          │
+            │ Sidebar  │          Content         │
+            │          │                          │
+            │          │                          │
+            ├──────────┴──────────────────────────┤
+            │               Footer                │
+            └─────────────────────────────────────┘ </div> </section>
+
+    ```
+    <!-- StackPane -->
+    <section>
+        <h2>5. StackPane</h2>
+
+        <p>
+            <code>StackPane</code> عناصر را روی یکدیگر قرار می‌دهد.
+            عنصر دوم می‌تواند روی عنصر اول قرار بگیرد.
+        </p>
+
+        <pre>&lt;StackPane&gt;
+
+&lt;Rectangle width="300" height="200"/&gt;
+
+&lt;Label text="سلام"/&gt;
+```
+
+            </StackPane></pre>
+
+        ```
+        <div class="diagram">
+            ```
+
+            ┌──────────────────────┐
+            │                      │
+            │        سلام          │
+            │                      │
+            └──────────────────────┘ </div>
+
+        ```
+        <h3>کاربردها</h3>
+
+        <ul>
+            <li>وسط‌چین کردن محتوا</li>
+            <li>قرار دادن متن روی تصویر</li>
+            <li>Overlay</li>
+            <li>نمایش Loading روی صفحه</li>
+            <li>ساخت UIهای Responsive</li>
+        </ul>
+
+        <h3>مثال</h3>
+
+        <pre>&lt;StackPane&gt;
+
+&lt;ImageView/&gt;
+
+&lt;Label text="عکس پروفایل"/&gt;
+```
+
+            </StackPane></pre> </section>
+
+    ```
+    <!-- AnchorPane -->
+    <section>
+        <h2>6. AnchorPane</h2>
+
+        <p>
+            <code>AnchorPane</code> امکان تعیین فاصله یک کنترل
+            از لبه‌های والد را فراهم می‌کند.
+        </p>
+
+        <pre>&lt;AnchorPane&gt;
+
+&lt;Button text="ذخیره"
+        AnchorPane.rightAnchor="10"
+        AnchorPane.bottomAnchor="10"/&gt;
+```
+
+            </AnchorPane></pre>
+
+        ```
+        <div class="diagram">
+            ```
+
+            ┌──────────────────────────────┐
+            │                              │
+            │                              │
+            │                              │
+            │                       [ذخیره]│
+            └──────────────────────────────┘
+            ↑
+            10px فاصله </div>
+
+        ```
+        <h3>مثال بسیار مهم</h3>
+
+        <pre>&lt;TableView
+AnchorPane.topAnchor="10"
+AnchorPane.bottomAnchor="10"
+AnchorPane.leftAnchor="10"
+AnchorPane.rightAnchor="10"/&gt;</pre>
+
+        <p>
+            در این حالت TableView در هر چهار جهت ۱۰ پیکسل فاصله دارد
+            و با تغییر اندازه پنجره، اندازه آن نیز تغییر می‌کند.
+        </p>
+    </section>
+
+    <!-- GridPane -->
+    <section>
+        <h2>7. GridPane</h2>
+
+        <p>
+            <code>GridPane</code> صفحه را به ردیف و ستون تقسیم می‌کند.
+            به همین دلیل برای ساخت فرم‌ها بسیار مناسب است.
+        </p>
+
+        <div class="diagram">
+            Column 0          Column 1
+            ┌──────────────┬──────────────┐
+            │ نام           │ TextField    │
+            ├──────────────┼──────────────┤
+            │ نام خانوادگی  │ TextField    │
+            ├──────────────┼──────────────┤
+            │ موبایل        │ TextField    │
+            └──────────────┴──────────────┘
+        </div>
+
+        <pre>&lt;GridPane hgap="10" vgap="10"&gt;
+
+&lt;Label text="نام"
+       GridPane.rowIndex="0"
+       GridPane.columnIndex="0"/&gt;
+
+&lt;TextField
+       GridPane.rowIndex="0"
+       GridPane.columnIndex="1"/&gt;
+
+&lt;Label text="نام خانوادگی"
+       GridPane.rowIndex="1"
+       GridPane.columnIndex="0"/&gt;
+
+&lt;TextField
+       GridPane.rowIndex="1"
+       GridPane.columnIndex="1"/&gt;
+```
+
+            </GridPane></pre>
+
+        ```
+        <h3>کاربرد</h3>
+
+        <p>
+            برای فرم ثبت شخص، اطلاعات مشتری، کارمند، حساب بانکی و مانند آن
+            بسیار مناسب است.
+        </p>
+    </section>
+
+    <!-- FlowPane -->
+    <section>
+        <h2>8. FlowPane</h2>
+
+        <p>
+            <code>FlowPane</code> عناصر را پشت سر هم قرار می‌دهد
+            و زمانی که فضای کافی وجود نداشته باشد، آیتم‌ها به خط بعد منتقل می‌شوند.
+        </p>
+
+        <pre>&lt;FlowPane hgap="10" vgap="10"&gt;
+
+&lt;Button text="Java"/&gt;
+&lt;Button text="Spring"/&gt;
+&lt;Button text="Hibernate"/&gt;
+&lt;Button text="JavaFX"/&gt;
+&lt;Button text="JPA"/&gt;
+&lt;Button text="Maven"/&gt;
+```
+
+            </FlowPane></pre>
+
+        ```
+        <div class="diagram">
+            ```
+
+            ┌──────────────────────────────┐
+            │ [Java] [Spring] [Hibernate]  │
+            │ [JavaFX] [JPA] [Maven]       │
+            └──────────────────────────────┘ </div>
+
+        ```
+        <h3>کاربرد</h3>
+
+        <p>
+            برای Tagها، Buttonهای متعدد و لیست‌های کوچک Responsive مناسب است.
+        </p>
+    </section>
+
+    <!-- TilePane -->
+    <section>
+        <h2>9. TilePane</h2>
+
+        <p>
+            <code>TilePane</code> شبیه FlowPane است،
+            اما آیتم‌ها را در خانه‌هایی با اندازه یکسان قرار می‌دهد.
+        </p>
+
+        <div class="diagram">
+            ```
+
+            ┌─────────┬─────────┬─────────┐
+            │  Java   │ Spring  │   JPA   │
+            ├─────────┼─────────┼─────────┤
+            │   SQL   │ JavaFX  │  Maven  │
+            └─────────┴─────────┴─────────┘ </div>
+
+        ```
+        <pre>&lt;TilePane hgap="10"
+      vgap="10"
+      prefColumns="3"&gt;
+
+&lt;Button text="Java"/&gt;
+&lt;Button text="Spring"/&gt;
+&lt;Button text="JPA"/&gt;
+&lt;Button text="SQL"/&gt;
+&lt;Button text="JavaFX"/&gt;
+&lt;Button text="Maven"/&gt;
+```
+
+            </TilePane></pre>
+
+        ```
+        <h3>کاربرد</h3>
+
+        <ul>
+            <li>Dashboard</li>
+            <li>کارت‌ها</li>
+            <li>منوهای کاشی‌ای</li>
+            <li>Gridهای ساده</li>
+        </ul>
+    </section>
+
+    <!-- Pane -->
+    <section>
+        <h2>10. Pane ساده</h2>
+
+        <p>
+            <code>Pane</code> یک Container ساده است که اجازه می‌دهد
+            موقعیت عناصر را به صورت دستی مشخص کنیم.
+        </p>
+
+        <pre>&lt;Pane&gt;
+
+&lt;Button text="سلام"
+        layoutX="100"
+        layoutY="50"/&gt;
+```
+
+            </Pane></pre>
+
+        ```
+        <p>یا در Java:</p>
+
+        <pre>button.setLayoutX(100);
+```
+
+button.setLayoutY(50);</pre>
+
+        ```
+        <div class="note">
+            برای طراحی Responsive معمولاً استفاده مستقیم از Pane پیشنهاد نمی‌شود،
+            زیرا موقعیت‌های دستی هنگام تغییر اندازه پنجره به صورت خودکار تنظیم نمی‌شوند.
+        </div>
+    </section>
+
+    <!-- ScrollPane -->
+    <section>
+        <h2>11. ScrollPane</h2>
+
+        <p>
+            <code>ScrollPane</code> امکان پیمایش محتوایی را فراهم می‌کند
+            که از فضای موجود بزرگ‌تر است.
+        </p>
+
+        <pre>&lt;ScrollPane fitToWidth="true"&gt;
+
+&lt;content&gt;
+
+    &lt;VBox spacing="10"&gt;
+
+        &lt;Label text="اطلاعات"/&gt;
+        &lt;TextField/&gt;
+        &lt;TextField/&gt;
+        &lt;TextField/&gt;
+        &lt;TextField/&gt;
+        &lt;TextField/&gt;
+        &lt;TextField/&gt;
+
+    &lt;/VBox&gt;
+
+&lt;/content&gt;
+```
+
+            </ScrollPane></pre>
+
+        ```
+        <h3>کاربرد</h3>
+
+        <p>
+            برای فرم‌های طولانی، صفحات تنظیمات و محتوایی که ممکن است
+            از ارتفاع صفحه بیشتر شود مناسب است.
+        </p>
+    </section>
+
+    <!-- SplitPane -->
+    <section>
+        <h2>12. SplitPane</h2>
+
+        <p>
+            <code>SplitPane</code> صفحه را به چند بخش تقسیم می‌کند
+            و کاربر می‌تواند اندازه بخش‌ها را با Drag تغییر دهد.
+        </p>
+
+        <pre>&lt;SplitPane&gt;
+
+&lt;VBox&gt;
+    &lt;Label text="منو"/&gt;
+&lt;/VBox&gt;
+
+&lt;TableView/&gt;
+```
+
+            </SplitPane></pre>
+
+        ```
+        <div class="diagram">
+            ```
+
+            ┌────────────┬────────────────────────┐
+            │            │                        │
+            │    Menu    │       TableView        │
+            │            │                        │
+            │            │                        │
+            └────────────┴────────────────────────┘
+            ↑
+            قابل جابجایی </div>
+
+        ```
+        <h3>کاربرد</h3>
+
+        <p>
+            برای Sidebar و Content، و همچنین محیط‌هایی که کاربر باید
+            بتواند اندازه قسمت‌ها را تغییر دهد، مناسب است.
+        </p>
+    </section>
+
+    <!-- ترکیب -->
+    <section>
+        <h2>13. ترکیب چند Layout با یکدیگر</h2>
+
+        <p>
+            در برنامه‌های واقعی معمولاً فقط از یک Pane استفاده نمی‌کنیم.
+            Layoutها را می‌توان داخل یکدیگر قرار داد.
+        </p>
+
+        <pre>BorderPane
+```
+
+│
+├── TOP
+│    └── HBox
+│         ├── Label
+│         └── Button
+│
+├── LEFT
+│    └── VBox
+│         ├── Button
+│         ├── Button
+│         └── Button
+│
+├── CENTER
+│    └── StackPane
+│         └── VBox
+│              ├── Label
+│              ├── HBox
+│              │    ├── TextField
+│              │    └── Button
+│              │
+│              ├── TableView
+│              └── Pagination
+│
+└── BOTTOM
+└── Label</pre>
+
+        ```
+        <div class="important">
+            نکته بسیار مهم:
+            لازم نیست برای کل صفحه فقط یک Layout انتخاب کنید.
+            می‌توانید Layoutها را داخل یکدیگر قرار دهید و هر بخش را
+            با مناسب‌ترین Pane طراحی کنید.
+        </div>
+    </section>
+
+    <!-- جدول خلاصه -->
+    <section>
+        <h2>14. مقایسه سریع Layoutها</h2>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Layout</th>
+                <th>نحوه چیدمان</th>
+                <th>کاربرد اصلی</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td>VBox</td>
+                <td>عمودی</td>
+                <td>فرم و لیست عمودی</td>
+            </tr>
+
+            <tr>
+                <td>HBox</td>
+                <td>افقی</td>
+                <td>دکمه‌ها و Toolbar</td>
+            </tr>
+
+            <tr>
+                <td>BorderPane</td>
+                <td>۵ ناحیه</td>
+                <td>ساختار اصلی صفحه</td>
+            </tr>
+
+            <tr>
+                <td>StackPane</td>
+                <td>روی یکدیگر</td>
+                <td>Center، Overlay و Responsive</td>
+            </tr>
+
+            <tr>
+                <td>AnchorPane</td>
+                <td>نسبت به لبه‌ها</td>
+                <td>تعیین فاصله از لبه‌ها</td>
+            </tr>
+
+            <tr>
+                <td>GridPane</td>
+                <td>سطر و ستون</td>
+                <td>فرم‌ها</td>
+            </tr>
+
+            <tr>
+                <td>FlowPane</td>
+                <td>پشت سرهم و Wrap</td>
+                <td>Tagها و آیتم‌های کوچک</td>
+            </tr>
+
+            <tr>
+                <td>TilePane</td>
+                <td>خانه‌های یکسان</td>
+                <td>Dashboard و کارت‌ها</td>
+            </tr>
+
+            <tr>
+                <td>Pane</td>
+                <td>موقعیت دستی</td>
+                <td>موارد خاص</td>
+            </tr>
+
+            <tr>
+                <td>ScrollPane</td>
+                <td>محتوای قابل Scroll</td>
+                <td>محتوای بزرگ</td>
+            </tr>
+
+            <tr>
+                <td>SplitPane</td>
+                <td>قسمت‌های قابل تغییر</td>
+                <td>Sidebar و Content</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- پیشنهاد برای پروژه -->
+    <section>
+        <h2>15. پیشنهاد برای پروژه مدیریت اشخاص شما</h2>
+
+        <p>برای پروژه JavaFX شما می‌توان از ساختار زیر استفاده کرد:</p>
+
+        <pre>صفحه اصلی
+```
+
+│
+└── BorderPane
+│
+├── Top
+│   └── HBox
+│
+├── Left / Right
+│   └── VBox
+│
+└── Center
+└── StackPane
+│
+└── VBox
+├── Label
+├── HBox
+│   ├── TextField
+│   ├── Search Button
+│   └── New Person Button
+│
+├── TableView
+└── Pagination</pre>
+
+        ```
+        <h3>برای فرم ثبت شخص</h3>
+
+        <pre>GridPane
+```
+
+│
+├── نام
+├── نام خانوادگی
+├── کد ملی
+├── موبایل
+├── ایمیل
+└── دکمه‌های ذخیره و لغو</pre>
+
+        ```
+        <h3>برای صفحه‌های طولانی</h3>
+
+        <pre>ScrollPane
+│
+└── VBox / GridPane</pre>
+    </section>
+
+    <!-- Responsive -->
+    <section>
+        <h2>16. نکته مهم درباره Responsive Design</h2>
+
+        <p>
+            در طراحی JavaFX بهتر است کمتر از موقعیت‌دهی ثابت مانند
+            <code>layoutX</code> و <code>layoutY</code> استفاده شود.
+        </p>
+
+        <p>به جای این:</p>
+
+        <pre>button.setLayoutX(100);
+```
+
+button.setLayoutY(50);</pre>
+
+        ```
+        <p>بهتر است از ساختار Layout استفاده کنید:</p>
+
+        <pre>BorderPane
+↓
+```
+
+Center
+↓
+VBox
+↓
+TableView</pre>
+
+        ```
+        <p>
+            یا در AnchorPane:
+        </p>
+
+        <pre>&lt;TableView
+AnchorPane.topAnchor="10"
+AnchorPane.bottomAnchor="10"
+AnchorPane.leftAnchor="10"
+AnchorPane.rightAnchor="10"/&gt;</pre>
+
+        <p>
+            یا در StackPane، محتوا را در مرکز نگه دارید.
+        </p>
+
+        <div class="important">
+            نتیجه این است که وقتی Stage بزرگ یا کوچک می‌شود،
+            اجزای صفحه نیز تا حد زیادی به صورت خودکار خودشان را
+            با فضای جدید تطبیق می‌دهند.
+        </div>
+    </section>
+
+    <!-- جمع بندی -->
+    <section>
+        <h2>17. خلاصه انتخاب Layout مناسب</h2>
+
+        <table>
+            <thead>
+            <tr>
+                <th>نیاز شما</th>
+                <th>انتخاب مناسب</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td>چیدن عناصر زیر یکدیگر</td>
+                <td>VBox</td>
+            </tr>
+
+            <tr>
+                <td>چیدن عناصر کنار یکدیگر</td>
+                <td>HBox</td>
+            </tr>
+
+            <tr>
+                <td>ساختار کلی صفحه</td>
+                <td>BorderPane</td>
+            </tr>
+
+            <tr>
+                <td>مرکز کردن یا روی هم قرار دادن</td>
+                <td>StackPane</td>
+            </tr>
+
+            <tr>
+                <td>فاصله نسبت به لبه‌ها</td>
+                <td>AnchorPane</td>
+            </tr>
+
+            <tr>
+                <td>ساخت فرم سطری و ستونی</td>
+                <td>GridPane</td>
+            </tr>
+
+            <tr>
+                <td>آیتم‌های پشت سرهم با رفتن به خط بعد</td>
+                <td>FlowPane</td>
+            </tr>
+
+            <tr>
+                <td>کارت‌ها و خانه‌های مساوی</td>
+                <td>TilePane</td>
+            </tr>
+
+            <tr>
+                <td>اسکرول کردن محتوا</td>
+                <td>ScrollPane</td>
+            </tr>
+
+            <tr>
+                <td>تقسیم صفحه با امکان تغییر اندازه</td>
+                <td>SplitPane</td>
+            </tr>
+
+            <tr>
+                <td>موقعیت‌دهی دستی</td>
+                <td>Pane</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+    ```
+
+</main>
+
+<footer>
+    JavaFX Layout Panes — راهنمای طراحی رابط کاربری
+</footer>
+
+</body>
+</html>

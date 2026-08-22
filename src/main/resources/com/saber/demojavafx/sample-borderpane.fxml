@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.saber.demojavafx.controllers.SampleBorderPaneController"
+            nodeOrientation="RIGHT_TO_LEFT"
+            prefHeight="800.0" prefWidth="500.0">
+    <padding>
+        <Insets top="5" bottom="5" right="5" left="5"/>
+    </padding>
+    
+    <top>
+        <VBox alignment="TOP_CENTER"><Label text="top" styleClass="top"/></VBox>
+    </top>
+
+    <left>
+        <VBox alignment="CENTER_LEFT"><Label text="left"/></VBox>
+    </left>
+    
+    <right>
+        <VBox alignment="CENTER_RIGHT">  <Label text="right"/></VBox>
+    </right>
+    
+    <center>
+<!--        <VBox alignment="CENTER"> <Label text="center"/> </VBox>-->
+        <GridPane hgap="15" vgap="15" alignment="CENTER">
+            <Label text="firstname" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField promptText="enter firstname" fx:id="firstnameField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+            <Label text="lastname" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField promptText="enter lastname" fx:id="lastnameField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+            <Button text="Say Hello" fx:id="sayHelloButton"  GridPane.rowIndex="2" GridPane.columnIndex="1"   />
+        </GridPane>
+    </center>
+    
+    <bottom>
+        <VBox alignment="BOTTOM_CENTER"> <Label text="bottom" styleClass="bottom"/></VBox>
+    </bottom>
+</BorderPane>
