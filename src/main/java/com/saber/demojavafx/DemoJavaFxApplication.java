@@ -32,10 +32,6 @@ public class DemoJavaFxApplication extends Application {
                 throw new RuntimeException(e);
             }
         });
-        // 1. دریافت ابعاد فضای قابل مشاهده صفحه (تسک بار و منوها حذف می‌شوند)
-        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
-
-
         double sceneWidth = Utilities.getScreenWidthByPercent();
         double sceneHeight = Utilities.getScreenHeightByPercent();
         System.out.println("sceneWidth ===> "+sceneWidth);

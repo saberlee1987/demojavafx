@@ -13,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -20,6 +22,11 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class PersonController {
+    @FXML
+    private StackPane contentContainer;
+
+    @FXML
+    private VBox contentBox;
     @FXML
     private TableView<PersonDto> personTable;
     @FXML
@@ -80,6 +87,14 @@ public class PersonController {
                     loadPersonData(page);
                 }
         );
+        // عرض = 85 درصد فضای موجود
+        contentBox.prefWidthProperty()
+                .bind(contentContainer.widthProperty().multiply(0.85));
+
+        // ارتفاع = 90 درصد فضای موجود
+        contentBox.prefHeightProperty()
+                .bind(contentContainer.heightProperty().multiply(0.90));
+
         loadPersonData(pagination.getCurrentPageIndex());
     }
 
@@ -214,7 +229,10 @@ public class PersonController {
             double sceneWidth = Utilities.getScreenWidthByPercent();
             double sceneHeight = Utilities.getScreenHeightByPercent();
             if (!isView) {
-                sceneWidth = sceneWidth * .55;
+                sceneWidth = sceneWidth * .50;
+                sceneHeight = sceneHeight * .90;
+            } else {
+                sceneWidth = sceneWidth * .74;
                 sceneHeight = sceneHeight * .90;
             }
 
@@ -223,7 +241,7 @@ public class PersonController {
             Scene scene = new Scene(load, sceneWidth, sceneHeight);
             scene.getStylesheets().add(css);
             stage.setScene(scene);
-            //stage.setResizable(false);
+            stage.setResizable(false);
             stage.setOnHidden(event -> refreshPagination());
             stage.show();
         } catch (Exception e) {

@@ -14,7 +14,7 @@ import java.util.*;
 
 public class Utilities {
     // درصد دلخواه خود را اینجا تنظیم کنید (مثلاً 0.8 یعنی 80 درصد)
-    private static final double SCREEN_PERCENT = 0.85;
+    private static final double SCREEN_PERCENT = 0.80;
     public static Optional<ButtonType> showDialog(String messageTitle, String message, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(messageTitle);
@@ -54,6 +54,6 @@ public class Utilities {
     public static double getScreenHeightByPercent() {
         // 1. دریافت ابعاد فضای قابل مشاهده صفحه (تسک بار و منوها حذف می‌شوند)
         Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
-        return visualBounds.getHeight() * SCREEN_PERCENT;
+        return visualBounds.getHeight() * (SCREEN_PERCENT - 10);
     }
 }
