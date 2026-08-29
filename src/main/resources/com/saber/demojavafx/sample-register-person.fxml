@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.saber.demojavafx.controllers.SampleRegisterPersonController"
+            prefHeight="400.0" prefWidth="600.0">
+    <padding>
+        <Insets top="15" bottom="15" left="15" right="15"/>
+    </padding>
+    
+    <top>
+        <HBox alignment="CENTER_RIGHT">
+            <Label>
+                <font>
+                    <Font name="System Bold" size="16"/>
+                </font>
+                نمونه فرم ثبت اشخاص
+            </Label>
+        </HBox>
+    </top>
+    <center>
+        <GridPane hgap="15" vgap="15" nodeOrientation="RIGHT_TO_LEFT">
+            <Label GridPane.columnIndex="0"
+                   GridPane.rowIndex="0">
+                <font>
+                    <Font name="System Bold" size="14"/>
+                </font>
+                نام
+            </Label>
+            <TextField GridPane.columnIndex="1"
+                       GridPane.rowIndex="0"
+                       fx:id="firstnameField"
+            />
+            
+            <Label GridPane.columnIndex="0"
+                   GridPane.rowIndex="1">
+                <font>
+                    <Font name="System Bold" size="14"/>
+                </font>
+                نام خانوادگی
+            </Label>
+            <TextField GridPane.columnIndex="1"
+                       GridPane.rowIndex="1"
+                       fx:id="lastnameField"
+            />
+            
+            <Label GridPane.columnIndex="0"
+                   GridPane.rowIndex="2">
+                <font>
+                    <Font name="System Bold" size="14"/>
+                </font>
+                سن
+            </Label>
+            <TextField GridPane.columnIndex="1"
+                       GridPane.rowIndex="2"
+                       fx:id="ageField"
+            />
+            
+            <Button GridPane.rowIndex="4"
+                    GridPane.columnIndex="0"
+                    styleClass="save-button"
+                    fx:id="buttonSavePerson"
+                    text="ثبت"
+            />
+        </GridPane>
+    </center>
+    
+    <bottom>
+        <HBox alignment="CENTER"><Label>
+            <font>
+                <Font name="System Bold" size="16"/>
+            </font>
+           توسعه دهنده : صابر عزیزی </Label>
+        </HBox>
+    </bottom>
+
+</BorderPane>
