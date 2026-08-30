@@ -54,6 +54,6 @@ public class Utilities {
     public static double getScreenHeightByPercent() {
         // 1. دریافت ابعاد فضای قابل مشاهده صفحه (تسک بار و منوها حذف می‌شوند)
         Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
-        return visualBounds.getHeight() * (SCREEN_PERCENT - 10);
+        return visualBounds.getHeight() * SCREEN_PERCENT;
     }
 }

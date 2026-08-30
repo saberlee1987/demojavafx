@@ -65,7 +65,7 @@
                 <Label fx:id="firstnameLabel"
                        GridPane.rowIndex="0"
                        GridPane.columnIndex="2"
-                       prefWidth="200"
+                       minWidth="300"
                        wrapText="true"
                        styleClass="validation-error"
                 />
@@ -85,6 +85,7 @@
                        GridPane.rowIndex="1"
                        GridPane.columnIndex="2"
                        wrapText="true"
+                       minWidth="300"
                        styleClass="validation-error"
                 />
                 <Label text="کد ملی:"
@@ -100,7 +101,7 @@
                 <Label fx:id="nationalCodeLabel"
                        GridPane.rowIndex="2"
                        GridPane.columnIndex="2"
-                       prefWidth="200"
+                       minWidth="350"
                        wrapText="true"
                        styleClass="validation-error"
                 />
@@ -118,7 +119,7 @@
                        GridPane.rowIndex="3"
                        GridPane.columnIndex="2"
                        styleClass="validation-error"
-                       prefWidth="200"
+                       minWidth="300"
                        wrapText="true"
                 />
                 
@@ -136,7 +137,7 @@
                        GridPane.rowIndex="4"
                        GridPane.columnIndex="2"
                        styleClass="validation-error"
-                       prefWidth="200"
+                       minWidth="300"
                        wrapText="true"
                 />
                 <!-- Row 3 -->
@@ -156,7 +157,7 @@
                        GridPane.rowIndex="5"
                        GridPane.columnIndex="2"
                        styleClass="validation-error"
-                       prefWidth="200"
+                       minWidth="300"
                 />
                 <Label text="تاریخ ایجاد:"
                        styleClass="field-label"

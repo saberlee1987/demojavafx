@@ -6,9 +6,11 @@ import com.saber.demojavafx.model.PersonEntity;
 import com.saber.demojavafx.repositories.PersonRepository;
 import com.saber.demojavafx.repositories.impl.PersonRepositoryImp;
 import com.saber.demojavafx.services.PersonService;
+import com.saber.demojavafx.utils.Utilities;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class PersonServiceImpl implements PersonService {
@@ -47,6 +49,21 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    public void savePersons(List<PersonDto> persons) {
+        for (PersonDto person : persons) {
+            Map<String, String> errors = Utilities.validatePerson(person);
+            if (!errors.isEmpty()) throw new RuntimeException(errors.toString());
+        }
+        checkRulesForPerson(persons);
+//        persons.forEach(person -> {
+//            System.out.println(person);
+//            System.out.println("=======================================================");
+//        });
+        List<PersonEntity> personEntities = PersonMapper.dtoToModel(persons);
+        personRepository.saveAll(personEntities);
+    }
+
+    @Override
     public void updatePerson(PersonDto personDto) {
         personRepository.update(personDto);
     }
@@ -54,6 +71,13 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public void checkRulesForPerson(PersonDto personDto) {
         checkRulesForPerson(personDto,null);
+    }
+
+    @Override
+    public void checkRulesForPerson(List<PersonDto> persons) {
+        for (PersonDto person : persons) {
+            checkRulesForPerson(person,null);
+        }
     }
 
     @Override

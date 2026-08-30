@@ -1,8 +1,14 @@
 package com.saber.demojavafx.controllers;
 
+import com.github.javafaker.Faker;
+import com.github.javafaker.Internet;
+import com.github.javafaker.Name;
+import com.github.javafaker.Number;
 import com.saber.demojavafx.dto.PersonDto;
 import com.saber.demojavafx.services.PersonService;
 import com.saber.demojavafx.services.impl.PersonServiceImpl;
+import com.saber.demojavafx.utils.IranianMobileGenerator;
+import com.saber.demojavafx.utils.IranianNationalCodeGenerator;
 import com.saber.demojavafx.utils.Utilities;
 import jakarta.persistence.EntityManagerFactory;
 import javafx.event.ActionEvent;
@@ -17,9 +23,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class PersonController {
     @FXML
@@ -62,6 +66,12 @@ public class PersonController {
 
     @FXML
     public void initialize() {
+//        try {
+//            insertFakePerson();
+//        }catch (Exception ex) {
+//            System.err.println(ex.getMessage());
+//        }
+
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         firstnameColumn.setCellValueFactory(new PropertyValueFactory<>("firstname"));
         lastnameColumn.setCellValueFactory(new PropertyValueFactory<>("lastname"));
@@ -93,9 +103,30 @@ public class PersonController {
 
         // ارتفاع = 90 درصد فضای موجود
         contentBox.prefHeightProperty()
-                .bind(contentContainer.heightProperty().multiply(0.90));
+                .bind(contentContainer.heightProperty().multiply(0.80));
 
         loadPersonData(pagination.getCurrentPageIndex());
+    }
+
+    private void insertFakePerson() {
+        List<PersonDto> persons = new ArrayList<>();
+        Name name = new Faker(Locale.of("fa","IR")).name();
+        Faker faker = new Faker();
+        Number number = faker.number();
+        Internet internet =faker.internet();
+        int count = 100;
+        Set<String> nationalCodes = IranianNationalCodeGenerator.generateUnique(count);
+        for (String nationalCode : nationalCodes) {
+            PersonDto personDto = new PersonDto();
+            personDto.setFirstname(name.firstName());
+            personDto.setLastname(name.lastName());
+            personDto.setAge(number.numberBetween(12,120));
+            personDto.setNationalCode(nationalCode);
+            personDto.setEmail(internet.emailAddress());
+            personDto.setMobile(IranianMobileGenerator.generate());
+            persons.add(personDto);
+        }
+        personService.savePersons(persons);
     }
 
     private void searchField(ActionEvent event) {
@@ -137,6 +168,14 @@ public class PersonController {
         String searchFieldText = searchField.getText();
         List<PersonDto> persons = personService.getAllPersons(searchFieldText,page,PAGE_SIZE);
         personTable.getItems().setAll(persons);
+//        personTable.setFixedCellSize(40);
+//
+//        personTable.prefHeightProperty().bind(
+//                Bindings.size(personTable.getItems())
+//                        .multiply(40)
+//                        .add(30)
+//        );
+        //personTable.removeEmptyRows();
     }
     private void refreshPagination() {
         long totalPersons = personService.countPersons();
@@ -229,10 +268,10 @@ public class PersonController {
             double sceneWidth = Utilities.getScreenWidthByPercent();
             double sceneHeight = Utilities.getScreenHeightByPercent();
             if (!isView) {
-                sceneWidth = sceneWidth * .50;
+                sceneWidth = sceneWidth * .80;
                 sceneHeight = sceneHeight * .90;
             } else {
-                sceneWidth = sceneWidth * .74;
+                //sceneWidth = sceneWidth;
                 sceneHeight = sceneHeight * .90;
             }
 

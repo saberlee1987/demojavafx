@@ -34,19 +34,24 @@ public class PersonMapper {
         }
         return persons;
     }
-    public static PersonEntity  dtoToModel(PersonDto personDto) {
+    public static List<PersonEntity> dtoToModel(List<PersonDto> personDtoList) {
+        List<PersonEntity> persons = new ArrayList<>();
+        personDtoList.forEach(personDto -> persons.add(dtoToModel(personDto)));
+        return persons;
+    }
+    public static PersonEntity dtoToModel(PersonDto personDto) {
         PersonEntity personEntity = new PersonEntity();
-       setPersonDtoToEntity(personDto,personEntity);
+        setPersonDtoToEntity(personDto, personEntity);
+        personEntity.setId(personDto.getId());
         return personEntity;
     }
 
-    public static void   setPersonDtoToEntity(PersonDto personDto,PersonEntity personEntity) {
+    public static void setPersonDtoToEntity(PersonDto personDto, PersonEntity personEntity) {
         personEntity.setFirstname(personDto.getFirstname());
         personEntity.setLastname(personDto.getLastname());
         personEntity.setAge(personDto.getAge());
         personEntity.setMobile(personDto.getMobile());
         personEntity.setNationalCode(personDto.getNationalCode());
         personEntity.setEmail(personDto.getEmail());
-        personEntity.setId(personDto.getId());
     }
 }

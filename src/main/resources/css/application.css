@@ -184,3 +184,26 @@
             1
     );
 }
+
+.table-view .filler {
+    -fx-background-color: transparent;
+}
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-view .virtual-flow {
+    -fx-background-color: transparent;
+}
+
+.table-view .virtual-flow .clipped-container {
+    -fx-background-color: transparent;
+}
+
+.table-view .virtual-flow .sheet {
+    -fx-background-color: transparent;
+}
+
+.table-view .filler {
+    -fx-background-color: transparent;
+}

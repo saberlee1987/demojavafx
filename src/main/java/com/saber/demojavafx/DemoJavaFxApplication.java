@@ -6,11 +6,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-
 
 import java.io.IOException;
 import java.util.Objects;
@@ -32,7 +29,7 @@ public class DemoJavaFxApplication extends Application {
                 throw new RuntimeException(e);
             }
         });
-        double sceneWidth = Utilities.getScreenWidthByPercent();
+        double sceneWidth = Utilities.getScreenWidthByPercent() + 250;
         double sceneHeight = Utilities.getScreenHeightByPercent();
         System.out.println("sceneWidth ===> "+sceneWidth);
         System.out.println("sceneHeight ===> "+sceneHeight);

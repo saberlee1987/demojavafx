@@ -67,6 +67,28 @@ public class PersonRepositoryImp implements PersonRepository {
     }
 
     @Override
+    public void saveAll(List<PersonEntity> persons) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        final int batchSize = 50;
+        for (int i = 0; i < persons.size(); i++) {
+            try {
+                entityManager.persist(persons.get(i));
+                if ((i + 1) % batchSize == 0) {
+                    transaction.begin();
+                    entityManager.flush();
+                    entityManager.clear();
+                    transaction.commit();
+                }
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                if (transaction.isActive()) transaction.rollback();
+            }
+        }
+        entityManager.flush();
+        entityManager.clear();
+    }
+
+    @Override
     public void update(PersonDto person) {
          EntityTransaction transaction = entityManager.getTransaction();
         try {

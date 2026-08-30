@@ -2,79 +2,82 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<BorderPane xmlns="http://javafx.com/javafx"
+<ScrollPane fitToWidth="true"
+            xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.saber.demojavafx.controllers.PersonController"
+            fx:controller="com.saber.demojavafx.controllers.PersonController">
+    <BorderPane
             nodeOrientation="RIGHT_TO_LEFT">
-    
-    <center>
-        <StackPane fx:id="contentContainer">
-            <VBox fx:id="contentBox"
-                  spacing="15"
-                  alignment="TOP_CENTER"
-                  minHeight="800"
-                  styleClass="content-box">
-                
-                <!-- عنوان -->
-                <Label text="لیست اشخاص"
-                       styleClass="page-title"/>
-                
-                <!-- بخش جستجو و دکمه‌ها -->
-                <HBox spacing="10"
-                      alignment="CENTER_LEFT">
-                    <Button text="شخص جدید"
-                            fx:id="buttonNewPerson"/>
-                    
-                    <Button text="جستجو"
-                            fx:id="buttonSearch"/>
-                    
-                    <TextField fx:id="searchField"
-                               promptText="جستجوی شخص..."
-                               prefWidth="300"
-                               maxWidth="400"
-                               HBox.hgrow="NEVER"/>
-                </HBox>
-                <!-- جدول -->
-                <TableView fx:id="personTable"
-                           VBox.vgrow="ALWAYS">
-                    <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-                    </columnResizePolicy>
-                    <columns>
-                        <TableColumn fx:id="idColumn"
-                                     text="شناسه"
-                                     visible="false"
-                        />
-                        <TableColumn fx:id="firstnameColumn"
-                                     text="نام"
-                                     prefWidth="120"/>
-                        <TableColumn fx:id="lastnameColumn"
-                                     text="نام خانوادگی"
-                                     prefWidth="150"/>
-                        <TableColumn fx:id="ageColumn"
-                                     text="سن"
-                                     prefWidth="70"/>
-                        <TableColumn fx:id="mobileColumn"
-                                     text="موبایل"
-                                     prefWidth="130"/>
-                        <TableColumn fx:id="nationalCodeColumn"
-                                     text="کد ملی"
-                                     prefWidth="130"/>
-                        <TableColumn fx:id="emailColumn"
-                                     text="پست الکترونیک"
-                                     prefWidth="200"/>
-                        <TableColumn fx:id="actionColumn"
-                                     text="عملیات"
-                                     prefWidth="300"/>
-                    </columns>
-                </TableView>
-                <!-- صفحه‌بندی -->
-                <Pagination fx:id="pagination"
-                            pageCount="1"
-                            maxPageIndicatorCount="7"/>
-            </VBox>
-        </StackPane>
-    </center>
+        <center>
+            <StackPane fx:id="contentContainer">
+                <VBox fx:id="contentBox"
+                      spacing="15"
+                      alignment="TOP_CENTER"
+                      minHeight="800"
+                      styleClass="content-box">
 
-</BorderPane>
+                    <!-- عنوان -->
+                    <Label text="لیست اشخاص"
+                           styleClass="page-title"/>
+
+                    <!-- بخش جستجو و دکمه‌ها -->
+                    <HBox spacing="10"
+                          alignment="CENTER_LEFT">
+                        <Button text="شخص جدید"
+                                fx:id="buttonNewPerson"/>
+
+                        <Button text="جستجو"
+                                fx:id="buttonSearch"/>
+
+                        <TextField fx:id="searchField"
+                                   promptText="جستجوی شخص..."
+                                   prefWidth="300"
+                                   maxWidth="400"
+                                   HBox.hgrow="NEVER"/>
+                    </HBox>
+                    <!-- جدول -->
+                    <TableView fx:id="personTable"
+                               VBox.vgrow="ALWAYS"
+                    >
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                        </columnResizePolicy>
+                        <columns>
+                            <TableColumn fx:id="idColumn"
+                                         text="شناسه"
+                                         visible="false"
+                            />
+                            <TableColumn fx:id="firstnameColumn"
+                                         text="نام"
+                                         prefWidth="150"/>
+                            <TableColumn fx:id="lastnameColumn"
+                                         text="نام خانوادگی"
+                                         prefWidth="150"/>
+                            <TableColumn fx:id="ageColumn"
+                                         text="سن"
+                                         prefWidth="70"/>
+                            <TableColumn fx:id="mobileColumn"
+                                         text="موبایل"
+                                         prefWidth="150"/>
+                            <TableColumn fx:id="nationalCodeColumn"
+                                         text="کد ملی"
+                                         prefWidth="150"/>
+                            <TableColumn fx:id="emailColumn"
+                                         text="پست الکترونیک"
+                                         prefWidth="300"/>
+                            <TableColumn fx:id="actionColumn"
+                                         text="عملیات"
+                                         prefWidth="300"/>
+                        </columns>
+                    </TableView>
+                    <!-- صفحه‌بندی -->
+                    <Pagination fx:id="pagination"
+                                pageCount="1"
+                                maxPageIndicatorCount="7"/>
+                </VBox>
+            </StackPane>
+        </center>
+
+    </BorderPane>
+
+</ScrollPane>

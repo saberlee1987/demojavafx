@@ -11,8 +11,10 @@ public interface PersonService {
     PersonDto getPersonById(Integer id);
 
     void savePerson(PersonDto personDto);
+    void savePersons(List<PersonDto> persons);
     void updatePerson(PersonDto personDto);
     void checkRulesForPerson(PersonDto personDto);
+    void checkRulesForPerson(List<PersonDto> persons);
     void checkRulesForPerson(PersonDto personDto,Integer personId);
 
     void deletePersonById(Integer id);

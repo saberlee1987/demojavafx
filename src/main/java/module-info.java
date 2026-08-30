@@ -8,6 +8,7 @@ module com.saber.demojavafx {
     requires org.hibernate.orm.core;
     requires org.hibernate.validator;
     requires persian.date.time;
+    requires javafaker;
 
     // JavaFX
     opens com.saber.demojavafx to javafx.fxml;

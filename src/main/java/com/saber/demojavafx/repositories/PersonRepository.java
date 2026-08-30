@@ -13,6 +13,7 @@ public interface PersonRepository {
     Optional<PersonEntity> findByNationalCode(String nationalCode);
 
     void save(PersonEntity person);
+    void saveAll(List<PersonEntity> persons);
     void update(PersonDto person);
 
     void deleteById(Integer id);
