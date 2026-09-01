@@ -3,6 +3,7 @@ package com.saber.demojavafx.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 
@@ -20,6 +21,9 @@ public class SampleRegisterPersonController {
 
     @FXML
     private Button buttonSavePerson;
+
+    @FXML
+    private Label labelPointer;
 
     @FXML
     public void initialize() {
@@ -44,5 +48,9 @@ public class SampleRegisterPersonController {
         System.out.println("firstname ===> "+firstname);
         System.out.println("lastname ===> "+lastname);
         System.out.println("ageStr ===> "+ageStr);
+    }
+
+    public void setLabelPointerText(String text) {
+        labelPointer.setText(text);
     }
 }

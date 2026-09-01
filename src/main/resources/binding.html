@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>راهنمای کامل Binding در JavaFX</title>
+
+    ```
+    <style>
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            line-height: 2;
+            margin: 40px;
+            background: #f5f6fa;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+        }
+
+        h1, h2, h3 {
+            color: #263238;
+        }
+
+        h1 {
+            border-bottom: 3px solid #555;
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            margin-top: 45px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            margin-top: 30px;
+        }
+
+        code {
+            direction: ltr;
+            text-align: left;
+            background: #f1f3f4;
+            padding: 3px 7px;
+            border-radius: 4px;
+            font-family: Consolas, monospace;
+        }
+
+        pre {
+            direction: ltr;
+            text-align: left;
+            background: #263238;
+            color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+
+        .note {
+            background: #fff8e1;
+            border-right: 5px solid #ffb300;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .important {
+            background: #ffebee;
+            border-right: 5px solid #e53935;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .success {
+            background: #e8f5e9;
+            border-right: 5px solid #43a047;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: right;
+        }
+
+        th {
+            background: #eceff1;
+        }
+
+        .diagram {
+            direction: ltr;
+            text-align: center;
+            background: #fafafa;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: Consolas, monospace;
+        }
+    </style>
+    ```
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>راهنمای کامل Binding در JavaFX</h1>
+
+    <p>
+        در JavaFX مفهوم <strong>Binding</strong> یکی از مهم‌ترین قابلیت‌ها برای
+        ارتباط دادن قسمت‌های مختلف رابط کاربری، Model و Propertyها است.
+    </p>
+
+    <p>
+        Binding به زبان ساده یعنی:
+    </p>
+
+    <div class="success">
+        <strong>اگر مقدار یک Property تغییر کرد، مقدار Property وابسته نیز
+            به صورت خودکار تغییر کند.</strong>
+    </div>
+
+    <h2>1. Binding چیست؟</h2>
+
+    <p>
+        فرض کنید یک TextField و یک Label داریم:
+    </p>
+
+    <pre>
+TextField
+    |
+    | Binding
+    v
+Label
+</pre>
+
+    <p>
+        اگر بنویسیم:
+    </p>
+
+    <pre>
+result.textProperty().bind(
+        textField.textProperty()
+);
+</pre>
+
+    <p>
+        هر چیزی که در TextField نوشته شود، به صورت خودکار در Label نمایش داده می‌شود.
+    </p>
+
+    <pre>
+TextField = "Ali"
+
+        |
+        | Binding
+        v
+
+Label = "Ali"
+</pre>
+
+    <h2>2. Property در JavaFX چیست؟</h2>
+
+    <p>
+        JavaFX برخلاف Java معمولی، نوع خاصی از متغیرها به نام
+        <strong>Property</strong> دارد.
+    </p>
+
+    <p>
+        مثلاً:
+    </p>
+
+    <pre>
+StringProperty name =
+        new SimpleStringProperty();
+</pre>
+
+    <p>
+        یا:
+    </p>
+
+    <pre>
+IntegerProperty age =
+        new SimpleIntegerProperty();
+</pre>
+
+    <p>
+        انواع مهم Property عبارت‌اند از:
+    </p>
+
+    <table>
+        <tr>
+            <th>Property</th>
+            <th>نوع داده</th>
+        </tr>
+        <tr>
+            <td>StringProperty</td>
+            <td>String</td>
+        </tr>
+        <tr>
+            <td>IntegerProperty</td>
+            <td>int</td>
+        </tr>
+        <tr>
+            <td>LongProperty</td>
+            <td>long</td>
+        </tr>
+        <tr>
+            <td>DoubleProperty</td>
+            <td>double</td>
+        </tr>
+        <tr>
+            <td>FloatProperty</td>
+            <td>float</td>
+        </tr>
+        <tr>
+            <td>BooleanProperty</td>
+            <td>boolean</td>
+        </tr>
+        <tr>
+            <td>ObjectProperty&lt;T&gt;</td>
+            <td>Object</td>
+        </tr>
+    </table>
+
+    <h2>3. تفاوت Property با متغیر معمولی</h2>
+
+    <p>متغیر معمولی:</p>
+
+    <pre>
+private String name;
+
+public String getName() {
+    return name;
+}
+
+public void setName(String name) {
+    this.name = name;
+}
+</pre>
+
+    <p>
+        اما در JavaFX می‌توانیم Property داشته باشیم:
+    </p>
+
+    <pre>
+private final StringProperty name =
+        new SimpleStringProperty();
+
+public String getName() {
+    return name.get();
+}
+
+public void setName(String value) {
+    name.set(value);
+}
+
+public StringProperty nameProperty() {
+    return name;
+}
+</pre>
+
+    <p>
+        متد مهم اینجا:
+    </p>
+
+    <pre>
+nameProperty()
+</pre>
+
+    <p>
+        است؛ زیرا برای Binding به Property نیاز داریم.
+    </p>
+
+    <h2>4. ساده‌ترین Binding</h2>
+
+    <p>
+        فرض کنید:
+    </p>
+
+    <pre>
+@FXML
+private TextField textField;
+
+@FXML
+private Label result;
+</pre>
+
+    <p>
+        در initialize:
+    </p>
+
+    <pre>
+result.textProperty().bind(
+        textField.textProperty()
+);
+</pre>
+
+    <p>
+        رابطه:
+    </p>
+
+    <div class="diagram">
+        TextField.textProperty()
+        |
+        | bind
+        v
+        Label.textProperty()
+    </div>
+
+    <h2>5. Binding یک‌طرفه</h2>
+
+    <p>
+        متد:
+    </p>
+
+    <pre>
+bind()
+</pre>
+
+    <p>
+        یک Binding یک‌طرفه ایجاد می‌کند.
+    </p>
+
+    <pre>
+A  ----------->  B
+</pre>
+
+    <p>
+        مثلاً:
+    </p>
+
+    <pre>
+label.textProperty().bind(
+        textField.textProperty()
+);
+</pre>
+
+    <p>
+        در این حالت TextField منبع است و Label مقصد.
+    </p>
+
+    <div class="important">
+        وقتی Property مقصد با <code>bind()</code> متصل شده باشد،
+        دیگر نباید با <code>set()</code> مقدار آن را تغییر دهید.
+    </div>
+
+    <h2>6. حذف Binding</h2>
+
+    <p>
+        برای حذف Binding:
+    </p>
+
+    <pre>
+label.textProperty().unbind();
+</pre>
+
+    <p>
+        بعد از unbind می‌توانیم دوباره مقدار Label را تغییر دهیم:
+    </p>
+
+    <pre>
+label.textProperty().unbind();
+
+label.setText("Hello");
+</pre>
+
+    <h2>7. Binding دوطرفه</h2>
+
+    <p>
+        اگر می‌خواهیم تغییر هر دو طرف روی طرف مقابل اعمال شود:
+    </p>
+
+    <pre>
+bindBidirectional()
+</pre>
+
+    <p>
+        مثلاً:
+    </p>
+
+    <pre>
+textField1.textProperty()
+        .bindBidirectional(
+                textField2.textProperty()
+        );
+</pre>
+
+    <p>
+        رابطه:
+    </p>
+
+    <pre>
+TextField1  <---------->  TextField2
+</pre>
+
+    <p>
+        اگر TextField اول تغییر کند، دوم تغییر می‌کند و بالعکس.
+    </p>
+
+    <p>
+        برای حذف:
+    </p>
+
+    <pre>
+textField1.textProperty()
+        .unbindBidirectional(
+                textField2.textProperty()
+        );
+</pre>
+
+    <h2>8. Binding با StringProperty</h2>
+
+    <pre>
+private final StringProperty name =
+        new SimpleStringProperty();
+
+@FXML
+private Label label;
+</pre>
+
+    <p>
+        در initialize:
+    </p>
+
+    <pre>
+label.textProperty().bind(name);
+</pre>
+
+    <p>
+        سپس:
+    </p>
+
+    <pre>
+name.set("Ali");
+</pre>
+
+    <p>
+        Label خودکار مقدار Ali را نمایش می‌دهد.
+    </p>
+
+    <h2>9. Binding عددی</h2>
+
+    <p>
+        مثلاً:
+    </p>
+
+    <pre>
+IntegerProperty count =
+        new SimpleIntegerProperty(10);
+</pre>
+
+    <p>
+        برای نمایش آن در Label:
+    </p>
+
+    <pre>
+label.textProperty().bind(
+        count.asString()
+);
+</pre>
+
+    <p>
+        اگر بنویسیم:
+    </p>
+
+    <pre>
+count.set(100);
+</pre>
+
+    <p>
+        Label خودکار 100 را نمایش می‌دهد.
+    </p>
+
+    <h2>10. asString()</h2>
+
+    <p>
+        برای تبدیل Property عددی به String از
+        <code>asString()</code>
+        استفاده می‌کنیم.
+    </p>
+
+    <pre>
+IntegerProperty number =
+        new SimpleIntegerProperty(10);
+
+label.textProperty().bind(
+        number.asString()
+);
+</pre>
+
+    <p>
+        برای Double:
+    </p>
+
+    <pre>
+DoubleProperty price =
+        new SimpleDoubleProperty(125.5);
+
+label.textProperty().bind(
+        price.asString("%.2f")
+);
+</pre>
+
+    <p>
+        نتیجه:
+    </p>
+
+    <pre>
+125.50
+</pre>
+
+    <h2>11. Binding با concat()</h2>
+
+    <p>
+        برای اتصال چند String:
+    </p>
+
+    <pre>
+label.textProperty().bind(
+        textField1.textProperty()
+                .concat(" - ")
+                .concat(textField2.textProperty())
+);
+</pre>
+
+    <p>
+        اگر:
+    </p>
+
+    <pre>
+TextField1 = 100
+TextField2 = 200
+</pre>
+
+    <p>
+        نتیجه:
+    </p>
+
+    <pre>
+100 - 200
+</pre>
+
+    <h2>12. Bindings.format()</h2>
+
+    <p>
+        برای ساخت یک String از چند Property:
+    </p>
+
+    <pre>
+label.textProperty().bind(
+        Bindings.format(
+                "نام: %s - نام خانوادگی: %s",
+                firstName,
+                lastName
+        )
+);
+</pre>
+
+    <p>
+        مثلاً:
+    </p>
+
+    <pre>
+نام: علی - نام خانوادگی: احمدی
+</pre>
+
+    <h2>13. createStringBinding()</h2>
+
+    <p>
+        یکی از مهم‌ترین متدهای Binding:
+    </p>
+
+    <pre>
+Bindings.createStringBinding()
+</pre>
+
+    <p>
+        زمانی استفاده می‌شود که منطق محاسباتی خاصی داریم.
+    </p>
+
+    <pre>
+label.textProperty().bind(
+        Bindings.createStringBinding(
+                () -> {
+
+                    return textField1.getText()
+                            + " "
+                            + textField2.getText();
+                },
+
+                textField1.textProperty(),
+                textField2.textProperty()
+        )
+);
+</pre>
+
+    <p>
+        پارامترهای آخر، Dependencyهای Binding هستند.
+    </p>
+
+    <h2>14. Dependency چیست؟</h2>
+
+    <p>
+        در مثال بالا:
+    </p>
+
+    <pre>
+textField1.textProperty()
+textField2.textProperty()
+</pre>
+
+    <p>
+        Dependency هستند.
+    </p>
+
+    <div class="diagram">
+        TextField1 ──────┐
+        |
+        v
+        createStringBinding
+        |
+        v
+        Label
+
+        TextField2 ──────┘
+
+    </div>
+
+    <p>
+        هرگاه یکی از آن‌ها تغییر کند، Binding دوباره محاسبه می‌شود.
+    </p>
+
+    <h2>15. BooleanBinding</h2>
+
+    <p>
+        برای شرایط منطقی از Boolean Binding استفاده می‌شود.
+    </p>
+
+    <p>
+        مثلاً:
+    </p>
+
+    <pre>
+textField.textProperty().isEmpty()
+</pre>
+
+    <p>
+        یک وضعیت Boolean تولید می‌کند.
+    </p>
+
+    <p>
+        مثلاً Button را تا زمانی که TextField خالی است غیرفعال کنیم:
+    </p>
+
+    <pre>
+button.disableProperty().bind(
+        textField.textProperty().isEmpty()
+);
+</pre>
+
+    <h2>16. استفاده از or()</h2>
+
+    <p>
+        فرض کنید دو TextField داریم و اگر یکی از آن‌ها خالی باشد Button
+        غیرفعال شود:
+    </p>
+
+    <pre>
+button.disableProperty().bind(
+
+        textField1.textProperty().isEmpty()
+                .or(
+                    textField2.textProperty().isEmpty()
+                )
+
+);
+</pre>
+
+    <p>
+        یعنی:
+    </p>
+
+    <pre>
+TextField1 خالی
+       OR
+TextField2 خالی
+       |
+       v
+Button disabled
+</pre>
+
+    <h2>17. استفاده از and()</h2>
+
+    <p>
+        برای ترکیب شرایط منطقی می‌توانیم از:
+    </p>
+
+    <pre>
+.and()
+</pre>
+
+    <p>
+        استفاده کنیم.
+    </p>
+
+    <p>
+        مثلاً:
+    </p>
+
+    <pre>
+condition1.and(condition2)
+</pre>
+
+    <h2>18. استفاده از not()</h2>
+
+    <p>
+        برای معکوس کردن Boolean:
+    </p>
+
+    <pre>
+textField.textProperty()
+        .isEmpty()
+        .not()
+</pre>
+
+    <p>
+        یعنی TextField خالی نیست.
+    </p>
+
+    <p>
+        مثلاً:
+    </p>
+
+    <pre>
+button.disableProperty().bind(
+        textField.textProperty()
+                .isEmpty()
+                .not()
+);
+</pre>
+
+    <p>
+        توجه کنید که این مثال باعث می‌شود Button وقتی TextField پر است
+        غیرفعال شود؛ بنابراین در عمل باید شرط موردنظر را دقیق انتخاب کنید.
+    </p>
+
+    <h2>19. Bind کردن visible</h2>
+
+    <pre>
+errorLabel.visibleProperty().bind(
+        textField.textProperty().isEmpty()
+);
+</pre>
+
+    <p>
+        اگر TextField خالی باشد، errorLabel نمایش داده می‌شود.
+    </p>
+
+    <h2>20. Bind کردن managed</h2>
+
+    <p>
+        در Layoutهایی مانند VBox و HBox معمولاً بهتر است
+        <code>managedProperty()</code>
+        را نیز Bind کنیم.
+    </p>
+
+    <pre>
+BooleanBinding showError =
+        textField.textProperty().isEmpty();
+
+errorLabel.visibleProperty().bind(showError);
+
+errorLabel.managedProperty().bind(showError);
+</pre>
+
+    <p>
+        در این حالت وقتی Label مخفی می‌شود، فضای آن نیز از Layout حذف می‌شود.
+    </p>
+
+    <h2>21. Bind کردن disable</h2>
+
+    <pre>
+button.disableProperty().bind(
+        textField.textProperty().isEmpty()
+);
+</pre>
+
+    <p>
+        یکی از رایج‌ترین کاربردهای Binding در فرم‌های JavaFX است.
+    </p>
+
+    <h2>22. Bindings.when()</h2>
+
+    <p>
+        این قابلیت مشابه if/else است.
+    </p>
+
+    <pre>
+label.textProperty().bind(
+        Bindings.when(
+                textField.textProperty().isEmpty()
+        )
+        .then("لطفاً مقدار وارد کنید")
+        .otherwise("مقدار وارد شده است")
+);
+</pre>
+
+    <p>
+        اگر TextField خالی باشد:
+    </p>
+
+    <pre>
+لطفاً مقدار وارد کنید
+</pre>
+
+    <p>
+        در غیر این صورت:
+    </p>
+
+    <pre>
+مقدار وارد شده است
+</pre>
+
+    <h2>23. Binding به چند Property</h2>
+
+    <p>
+        می‌توانیم چند Property را در یک Binding استفاده کنیم.
+    </p>
+
+    <pre>
+label.textProperty().bind(
+        Bindings.createStringBinding(
+                () -> {
+
+                    double a =
+                            Double.parseDouble(
+                                    textField1.getText()
+                            );
+
+                    double b =
+                            Double.parseDouble(
+                                    textField2.getText()
+                            );
+
+                    return String.valueOf(a + b);
+                },
+
+                textField1.textProperty(),
+                textField2.textProperty()
+        )
+);
+</pre>
+
+    <h2>24. مثال کامل ماشین حساب</h2>
+
+    <h3>FXML</h3>
+
+    <pre>
+&lt;VBox spacing="15"&gt;
+
+    &lt;TextField
+            fx:id="textFieldNumber1"
+            promptText="عدد اول"/&gt;
+
+    &lt;ComboBox
+            fx:id="operatorComboBox"/&gt;
+
+    &lt;TextField
+            fx:id="textFieldNumber2"
+            promptText="عدد دوم"/&gt;
+
+    &lt;Label
+            fx:id="result"/&gt;
+
+&lt;/VBox&gt;
+</pre>
+
+    <h3>Controller</h3>
+
+    <pre>
+import javafx.beans.binding.Bindings;
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+
+public class CalculatorController {
+
+    @FXML
+    private TextField textFieldNumber1;
+
+    @FXML
+    private TextField textFieldNumber2;
+
+    @FXML
+    private ComboBox&lt;String&gt; operatorComboBox;
+
+    @FXML
+    private Label result;
+
+
+    @FXML
+    public void initialize() {
+
+        operatorComboBox.getItems().addAll(
+                "+",
+                "-",
+                "*",
+                "/"
+        );
+
+        operatorComboBox.getSelectionModel()
+                .selectFirst();
+
+
+        result.textProperty().bind(
+
+                Bindings.createStringBinding(
+
+                        this::calculate,
+
+                        textFieldNumber1.textProperty(),
+                        textFieldNumber2.textProperty(),
+                        operatorComboBox.valueProperty()
+                )
+        );
+    }
+
+
+    private String calculate() {
+
+        try {
+
+            double number1 =
+                    Double.parseDouble(
+                            textFieldNumber1.getText()
+                    );
+
+            double number2 =
+                    Double.parseDouble(
+                            textFieldNumber2.getText()
+                    );
+
+            String operator =
+                    operatorComboBox.getValue();
+
+
+            if (operator == null) {
+                return "عملگر را انتخاب کنید";
+            }
+
+
+            return switch (operator) {
+
+                case "+" ->
+                        String.valueOf(
+                                number1 + number2
+                        );
+
+                case "-" ->
+                        String.valueOf(
+                                number1 - number2
+                        );
+
+                case "*" ->
+                        String.valueOf(
+                                number1 * number2
+                        );
+
+                case "/" -> {
+
+                    if (number2 == 0) {
+                        yield "تقسیم بر صفر مجاز نیست";
+                    }
+
+                    yield String.valueOf(
+                            number1 / number2
+                    );
+                }
+
+                default ->
+                        "عملگر نامعتبر";
+            };
+
+        } catch (NumberFormatException e) {
+
+            return "عدد نامعتبر";
+        }
+    }
+}
+</pre>
+
+    <h2>25. جریان Binding در ماشین حساب</h2>
+
+    <div class="diagram">
+        TextField Number 1
+        |
+        |
+        +------------------+
+        |
+        TextField Number 2 |
+        | |
+        +------------------+----> calculate()
+        |
+        ComboBox Operator |
+        | |
+        +------------------+
+        |
+        v
+        Label Result
+    </div>
+
+    <p>
+        یعنی سه Property به Binding وابسته هستند:
+    </p>
+
+    <pre>
+textFieldNumber1.textProperty()
+
+textFieldNumber2.textProperty()
+
+operatorComboBox.valueProperty()
+</pre>
+
+    <p>
+        اگر هرکدام تغییر کند، محاسبه دوباره انجام می‌شود.
+    </p>
+
+    <h2>26. Binding در Model</h2>
+
+    <p>
+        Binding فقط مخصوص کنترل‌های UI نیست.
+        می‌توانیم Model خود را نیز دارای Property کنیم.
+    </p>
+
+    <pre>
+public class Person {
+
+    private final StringProperty firstName =
+            new SimpleStringProperty();
+
+    private final StringProperty lastName =
+            new SimpleStringProperty();
+
+
+    public String getFirstName() {
+        return firstName.get();
+    }
+
+
+    public void setFirstName(String value) {
+        firstName.set(value);
+    }
+
+
+    public StringProperty firstNameProperty() {
+        return firstName;
+    }
+
+
+    public String getLastName() {
+        return lastName.get();
+    }
+
+
+    public void setLastName(String value) {
+        lastName.set(value);
+    }
+
+
+    public StringProperty lastNameProperty() {
+        return lastName;
+    }
+}
+</pre>
+
+    <h2>27. اتصال TextField به Model</h2>
+
+    <p>
+        می‌توانیم TextField را به Model متصل کنیم:
+    </p>
+
+    <pre>
+textField.textProperty()
+        .bindBidirectional(
+                person.firstNameProperty()
+        );
+</pre>
+
+    <p>
+        حالا:
+    </p>
+
+    <pre>
+TextField
+    &lt;------------&gt;
+Person.firstNameProperty()
+</pre>
+
+    <p>
+        اگر کاربر TextField را تغییر دهد، Model نیز تغییر می‌کند.
+        و اگر Model تغییر کند، TextField نیز تغییر می‌کند.
+    </p>
+
+    <h2>28. Binding در TableView</h2>
+
+    <p>
+        یکی از کاربردهای بسیار مهم Property در JavaFX،
+        نمایش اطلاعات در TableView است.
+    </p>
+
+    <pre>
+TableColumn&lt;Person, String&gt; firstNameColumn;
+
+firstNameColumn.setCellValueFactory(
+        cellData ->
+                cellData.getValue()
+                        .firstNameProperty()
+);
+</pre>
+
+    <p>
+        در این حالت TableView مستقیماً به Property مدل متصل است.
+    </p>
+
+    <h2>29. Binding و ObservableValue</h2>
+
+    <p>
+        متدهای Binding معمولاً با نوع:
+    </p>
+
+    <pre>
+ObservableValue&lt;T&gt;
+</pre>
+
+    کار می‌کنند.
+
+    </p>
+
+    <p>
+        Propertyهای JavaFX مانند:
+    </p>
+
+    <pre>
+StringProperty
+IntegerProperty
+BooleanProperty
+ObjectProperty
+</pre>
+
+    قابلیت Observable بودن دارند.
+
+    </p>
+
+    <p>
+        یعنی JavaFX می‌تواند متوجه شود که مقدار آن‌ها تغییر کرده است.
+    </p>
+
+    <h2>30. Listener در مقابل Binding</h2>
+
+    <p>
+        Binding و Listener دو مفهوم متفاوت هستند.
+    </p>
+
+    <h3>Listener</h3>
+
+    <pre>
+textField.textProperty()
+        .addListener(
+                (observable, oldValue, newValue) -> {
+
+                    result.setText(newValue);
+                }
+        );
+</pre>
+
+    <h3>Binding</h3>
+
+    <pre>
+result.textProperty().bind(
+        textField.textProperty()
+);
+</pre>
+
+    <p>
+        Listener زمانی مناسب است که بخواهیم هنگام تغییر مقدار،
+        یک عملیات خاص انجام دهیم.
+    </p>
+
+    <p>
+        Binding زمانی مناسب است که بخواهیم یک Property را به Property
+        یا محاسبه دیگری وابسته کنیم.
+    </p>
+
+    <h2>31. چه زمانی از Binding استفاده کنیم؟</h2>
+
+    <table>
+        <tr>
+            <th>نیاز</th>
+            <th>راهکار</th>
+        </tr>
+
+        ```
+        <tr>
+            <td>اتصال Label به TextField</td>
+            <td>bind()</td>
+        </tr>
+
+        <tr>
+            <td>اتصال دوطرفه Model و TextField</td>
+            <td>bindBidirectional()</td>
+        </tr>
+
+        <tr>
+            <td>محاسبه مقدار جدید</td>
+            <td>createStringBinding()</td>
+        </tr>
+
+        <tr>
+            <td>شرط Boolean</td>
+            <td>BooleanBinding</td>
+        </tr>
+
+        <tr>
+            <td>if/else در Binding</td>
+            <td>Bindings.when()</td>
+        </tr>
+
+        <tr>
+            <td>فرمت کردن چند Property</td>
+            <td>Bindings.format()</td>
+        </tr>
+
+        <tr>
+            <td>تبدیل عدد به String</td>
+            <td>asString()</td>
+        </tr>
+
+        <tr>
+            <td>اتصال چند String</td>
+            <td>concat()</td>
+        </tr>
+        ```
+
+    </table>
+
+    <h2>32. مهم‌ترین متدهای Binding</h2>
+
+    <table>
+        <tr>
+            <th>متد</th>
+            <th>کاربرد</th>
+        </tr>
+
+        ```
+        <tr>
+            <td>bind()</td>
+            <td>Binding یک‌طرفه</td>
+        </tr>
+
+        <tr>
+            <td>bindBidirectional()</td>
+            <td>Binding دوطرفه</td>
+        </tr>
+
+        <tr>
+            <td>unbind()</td>
+            <td>حذف Binding یک‌طرفه</td>
+        </tr>
+
+        <tr>
+            <td>unbindBidirectional()</td>
+            <td>حذف Binding دوطرفه</td>
+        </tr>
+
+        <tr>
+            <td>createStringBinding()</td>
+            <td>ساخت String Binding</td>
+        </tr>
+
+        <tr>
+            <td>createBooleanBinding()</td>
+            <td>ساخت Boolean Binding</td>
+        </tr>
+
+        <tr>
+            <td>createObjectBinding()</td>
+            <td>ساخت Object Binding</td>
+        </tr>
+
+        <tr>
+            <td>Bindings.format()</td>
+            <td>ساخت String با چند Property</td>
+        </tr>
+
+        <tr>
+            <td>Bindings.when()</td>
+            <td>شرط if/else</td>
+        </tr>
+
+        <tr>
+            <td>isEmpty()</td>
+            <td>بررسی خالی بودن String</td>
+        </tr>
+
+        <tr>
+            <td>asString()</td>
+            <td>تبدیل مقدار به String</td>
+        </tr>
+
+        <tr>
+            <td>concat()</td>
+            <td>اتصال Stringها</td>
+        </tr>
+
+        <tr>
+            <td>and()</td>
+            <td>AND منطقی</td>
+        </tr>
+
+        <tr>
+            <td>or()</td>
+            <td>OR منطقی</td>
+        </tr>
+
+        <tr>
+            <td>not()</td>
+            <td>معکوس Boolean</td>
+        </tr>
+        ```
+
+    </table>
+
+    <h2>33. یک نکته بسیار مهم</h2>
+
+    <div class="important">
+
+        <p>
+            وقتی یک Property را Bind می‌کنید، مقصد دیگر تحت کنترل مستقیم شما نیست.
+        </p>
+
+        <p>
+            مثلاً:
+        </p>
+
+        <pre>
+label.textProperty().bind(
+        textField.textProperty()
+);
+</pre>
+
+        <p>
+            بعد از آن نباید بنویسید:
+        </p>
+
+        <pre>
+label.setText("Hello");
+</pre>
+
+        <p>
+            ابتدا باید:
+        </p>
+
+        <pre>
+label.textProperty().unbind();
+</pre>
+
+        <p>
+            و سپس مقداردهی کنید.
+        </p>
+
+    </div>
+
+    <h2>34. جمع‌بندی</h2>
+
+    <p>
+        مهم‌ترین مفهوم Binding این است:
+    </p>
+
+    <div class="success">
+
+        <strong>
+            به جای اینکه هر بار بعد از تغییر مقدار، خودمان UI را به‌روزرسانی کنیم،
+            یک رابطه بین Propertyها ایجاد می‌کنیم و JavaFX این کار را انجام می‌دهد.
+        </strong>
+
+    </div>
+
+    <p>
+        برای شروع، این چهار مورد را به خوبی یاد بگیرید:
+    </p>
+
+    <ol>
+        <li><code>bind()</code></li>
+        <li><code>bindBidirectional()</code></li>
+        <li><code>Bindings.createStringBinding()</code></li>
+        <li><code>Bindings.when()</code></li>
+    </ol>
+
+    <p>
+        بعد از این چهار مورد، مفاهیم
+        <code>Property</code>،
+        <code>ObservableValue</code>،
+        <code>BooleanBinding</code>،
+        <code>StringBinding</code>
+        و Binding بین Model و View بسیار راحت‌تر قابل درک خواهند بود.
+    </p>
+
+</div>
+
+</body>
+</html>

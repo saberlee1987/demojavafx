@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.saber.demojavafx.controllers.SceneController"
+            prefHeight="400.0" prefWidth="600.0">
+    <top>
+        <Label alignment="CENTER">
+            Scene 1
+        </Label>
+    </top>
+    <center>
+        <HBox>
+            <Button text="next scene" onAction="#switchToScene2"/>
+            <Button text="Close1" onAction="#close"/>
+        </HBox>
+    </center>
+
+</BorderPane>
