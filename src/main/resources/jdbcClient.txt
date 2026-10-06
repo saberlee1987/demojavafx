@@ -1,0 +1,170 @@
+public List<ReportCollateralMatchDifferenceDto> findDifferenceReportCollateralMatch(
+            ReportCollateralMatchDifferenceSearchDto searchDto, Integer page, Integer size) {
+
+        Map<String, Object> params = new HashMap<>();
+        ReportCollateralMatchQueryString queryString = getReportCollateralMatchQueryString(searchDto, params);
+
+        String baseSql = getBaseSqlForDifferenceCollateralMatch(
+                queryString.getBaseDynamicColumns(),
+                queryString.getDynamicJoins()
+        );
+
+        if (page != null && size != null) {
+            long offset = (long) (page - 1) * size;
+            if (offset > 0) {
+                baseSql = baseSql.concat(" OFFSET :offset ROWS \n");
+                params.put("offset", offset);
+            }
+        }
+
+        String sql = """
+            WITH base_data AS ( %s ),
+                 diff_data AS (
+                     SELECT b.* %s
+                     FROM base_data b
+                 )
+            SELECT VID, OLD_COLLATERAL_NO, COLLATERAL_PRODUCT_CODE, COLLATERAL_PRODUCT_TITLE,
+                   OWNER_ORGAN_CODE, FULL_NAME, IDENTIFIER_NO, CUSTOMER_NO %s
+            FROM diff_data
+            %s
+            """.formatted(baseSql, queryString.getDiffColumns(), queryString.getFinalSelect(), queryString.getWhereCondition());
+
+        if (size != null) {
+            sql = sql.concat(" FETCH NEXT :pageSize ROWS ONLY \n");
+            params.put("pageSize", size);
+        }
+
+        System.out.println("SQL QUERY ===> " + sql);
+
+        // استفاده پاکیزه و خوانا از JdbcClient
+        return jdbcClient.sql(sql)
+                .params(params) // پاس دادن ایمن پارامترها برای جلوگیری از SQL Injection
+                .query((resultSet, rowNum) -> mapRowToDto(resultSet, searchDto.getItemModificationMigrationChanges()))
+                .list();
+    }
+
+    private ReportCollateralMatchQueryString getReportCollateralMatchQueryString(
+            ReportCollateralMatchDifferenceSearchDto searchDto, Map<String, Object> params) {
+
+        List<Byte> itemsModificationMigrationChange = searchDto.getItemModificationMigrationChanges();
+        ReportCollateralMatchQueryString queryString = new ReportCollateralMatchQueryString();
+
+        String baseDynamicColumns = "";
+        String dynamicJoins = "";
+        String diffColumns = "";
+        String finalSelect = "";
+
+        for (Byte itemModificationChange : itemsModificationMigrationChange) {
+            if (itemModificationChange.equals(Constants.ItemModificationMigrationChange.COLLATERAL_AMOUNT.getValue())) {
+                baseDynamicColumns = baseDynamicColumns.concat("""
+                    , collateralMatch.COLLATERAL_AMOUNT AS COLLATERAL_AMOUNT
+                    , JSON_VALUE(changeInfo.CHANGEMORTGAGEINFO,'$.collateralAmount' RETURNING NUMBER) AS OLD_COLLATERAL_AMOUNT
+                    """);
+                diffColumns = diffColumns.concat(" DECODE(b.COLLATERAL_AMOUNT, b.OLD_COLLATERAL_AMOUNT, 0, 1) ");
+                finalSelect = finalSelect.concat(" , COLLATERAL_AMOUNT, OLD_COLLATERAL_AMOUNT ");
+            }
+            if (itemModificationChange.equals(Constants.ItemModificationMigrationChange.COLLATERAL_DUE_DATE.getValue())) {
+                baseDynamicColumns = baseDynamicColumns.concat("""
+                    , collateralMatch.collateral_due_date AS COLLATERAL_DUE_DATE
+                    , REPLACE(collateralMatch.collateral_due_date, '/', '') AS COLLATERAL_DUE_DATE_NORMALIZE
+                    , JSON_VALUE(changeInfo.CHANGEMORTGAGEINFO,'$.collateralDueDate' RETURNING VARCHAR2(200)) AS OLD_COLLATERAL_DUE_DATE
+                    , REPLACE(JSON_VALUE(changeInfo.CHANGEMORTGAGEINFO,'$.collateralDueDate' RETURNING VARCHAR2(200)),'/','') AS OLD_COLLATERAL_DUE_DATE_NORMALIZE
+                    """);
+                finalSelect = finalSelect.concat(" , COLLATERAL_DUE_DATE, COLLATERAL_DUE_DATE_NORMALIZE, OLD_COLLATERAL_DUE_DATE, OLD_COLLATERAL_DUE_DATE_NORMALIZE ");
+                if (!diffColumns.isEmpty()) diffColumns = diffColumns.concat(" , ");
+                diffColumns = diffColumns.concat(" DECODE(b.COLLATERAL_DUE_DATE_NORMALIZE, b.OLD_COLLATERAL_DUE_DATE_NORMALIZE, 0, 1) ");
+            }
+            if (itemModificationChange.equals(Constants.ItemModificationMigrationChange.ISSUE_DUE_DATE.getValue())) {
+                baseDynamicColumns = baseDynamicColumns.concat("""
+                    , collateralMatch.issue_date AS ISSUE_DATE
+                    , REPLACE(collateralMatch.issue_date, '/', '') AS ISSUE_DATE_NORMALIZE
+                    , JSON_VALUE(changeInfo.CHANGEMORTGAGEINFO,'$.issueDate' RETURNING VARCHAR2(200)) AS OLD_ISSUE_DATE
+                    , REPLACE(JSON_VALUE(changeInfo.CHANGEMORTGAGEINFO,'$.issueDate' RETURNING VARCHAR2(200)),'/','') AS OLD_ISSUE_DATE_NORMALIZE
+                    """);
+                if (!diffColumns.isEmpty()) diffColumns = diffColumns.concat(" , ");
+                diffColumns = diffColumns.concat(" DECODE(b.ISSUE_DATE_NORMALIZE, b.OLD_ISSUE_DATE_NORMALIZE, 0, 1) ");
+                finalSelect = finalSelect.concat(" , ISSUE_DATE, ISSUE_DATE_NORMALIZE, OLD_ISSUE_DATE, OLD_ISSUE_DATE_NORMALIZE ");
+            }
+            if (itemModificationChange.equals(Constants.ItemModificationMigrationChange.DOC_NO.getValue())) {
+                baseDynamicColumns = baseDynamicColumns.concat("""
+                    , collateralMatch.doc_no AS DOC_NO
+                    , JSON_VALUE(changeInfo.CHANGEMORTGAGEINFO,'$.docNo' RETURNING VARCHAR2(4000)) AS OLD_DOC_NO
+                    """);
+                if (!diffColumns.isEmpty()) diffColumns = diffColumns.concat(" , ");
+                diffColumns = diffColumns.concat(" DECODE(b.DOC_NO, b.OLD_DOC_NO, 0, 1) ");
+                finalSelect = finalSelect.concat(" , DOC_NO, OLD_DOC_NO ");
+            }
+            if (itemModificationChange.equals(Constants.ItemModificationMigrationChange.ASSET_AMOUNT.getValue())) {
+                baseDynamicColumns = baseDynamicColumns.concat("""
+                    , assetMatch.asset_amount AS ASSET_AMOUNT
+                    , JSON_VALUE(changeInfo.change_asset_info,'$[0].assetAmount' RETURNING NUMBER) AS OLD_ASSET_AMOUNT
+                    """);
+                dynamicJoins = dynamicJoins.concat(" INNER JOIN clt.tb_vas_ldr_asset_match assetMatch ON assetMatch.vid = collateralMatch.vid ");
+                if (!diffColumns.isEmpty()) diffColumns = diffColumns.concat(" , ");
+                diffColumns = diffColumns.concat(" DECODE(b.ASSET_AMOUNT, b.OLD_ASSET_AMOUNT, 0, 1) ");
+                finalSelect = finalSelect.concat(" , ASSET_AMOUNT, OLD_ASSET_AMOUNT ");
+            }
+            if (itemModificationChange.equals(Constants.ItemModificationMigrationChange.CONTRACT_NO.getValue())) {
+                baseDynamicColumns = baseDynamicColumns.concat("""
+                    , contractMatch.CONTRACT_NO AS CONTRACT_NO
+                    , JSON_VALUE(changeInfo.change_contract_info,'$.contractNo' RETURNING VARCHAR2(4000)) AS OLD_CONTRACT_NO
+                    """);
+                if (!diffColumns.isEmpty()) diffColumns = diffColumns.concat(" , ");
+                diffColumns = diffColumns.concat(" DECODE(b.CONTRACT_NO, b.OLD_CONTRACT_NO, 0, 1) ");
+                finalSelect = finalSelect.concat(" , CONTRACT_NO, OLD_CONTRACT_NO ");
+            }
+            if (itemModificationChange.equals(Constants.ItemModificationMigrationChange.ALLOCATED_AMOUNT.getValue())) {
+                baseDynamicColumns = baseDynamicColumns.concat("""
+                    , contractMatch.ALLOCATED_AMOUNT AS ALLOCATED_AMOUNT
+                    , JSON_VALUE(changeInfo.change_contract_info,'$.allocatedAmount' RETURNING NUMBER) AS OLD_ALLOCATED_AMOUNT
+                    """);
+                if (!diffColumns.isEmpty()) diffColumns = diffColumns.concat(" , ");
+                diffColumns = diffColumns.concat(" DECODE(b.ALLOCATED_AMOUNT, b.OLD_ALLOCATED_AMOUNT, 0, 1) ");
+                finalSelect = finalSelect.concat(" , ALLOCATED_AMOUNT, OLD_ALLOCATED_AMOUNT ");
+            }
+        }
+
+        if (itemsModificationMigrationChange.contains(Constants.ItemModificationMigrationChange.CONTRACT_NO.getValue())
+                || itemsModificationMigrationChange.contains(Constants.ItemModificationMigrationChange.ALLOCATED_AMOUNT.getValue())) {
+            dynamicJoins = dynamicJoins.concat(" INNER JOIN clt.tb_vas_ldr_contract_match contractMatch ON contractMatch.vid = collateralMatch.vid ");
+        }
+
+        String finalDiffColumns = ", GREATEST( %s ) AS HAS_DIFF ".formatted(diffColumns);
+
+        // ساخت امن بخش WHERE با استفاده از Bind Parameters
+        List<String> conditions = new ArrayList<>();
+
+        if (searchDto.getOrganIds() != null && !searchDto.getOrganIds().isEmpty()) {
+            conditions.add(" OWNER_ORGAN_ID IN (:organIds) ");
+            params.put("organIds", searchDto.getOrganIds());
+        }
+        if (searchDto.getOldCollateralNo() != null) {
+            conditions.add(" OLD_COLLATERAL_NO = :oldCollateralNo ");
+            params.put("oldCollateralNo", searchDto.getOldCollateralNo());
+        }
+        if (searchDto.getIdentifierNo() != null && !searchDto.getIdentifierNo().isEmpty()) {
+            conditions.add(" IDENTIFIER_NO = :identifierNo ");
+            params.put("identifierNo", searchDto.getIdentifierNo());
+        }
+        if (searchDto.getCollateralTypeCode() != null) {
+            conditions.add(" COLLATERAL_PRODUCT_CODE = :collateralTypeCode ");
+            params.put("collateralTypeCode", searchDto.getCollateralTypeCode());
+        }
+        if (searchDto.getApplicantAccountNo() != null) {
+            conditions.add(" ACCOUNT_NO = :applicantAccountNo ");
+            params.put("applicantAccountNo", searchDto.getApplicantAccountNo());
+        }
+
+        String where = " WHERE HAS_DIFF = 1 ";
+        if (!conditions.isEmpty()) {
+            where += " AND ( " + String.join(" AND ", conditions) + " ) ";
+        }
+
+        queryString.setBaseDynamicColumns(baseDynamicColumns);
+        queryString.setDiffColumns(finalDiffColumns);
+        queryString.setFinalSelect(finalSelect);
+        queryString.setWhereCondition(where);
+        queryString.setDynamicJoins(dynamicJoins);
+
+        return queryString;
+    }
